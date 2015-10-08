@@ -41,10 +41,11 @@ import is.rebbi.core.util.StringUtilities;
 public class CayenneUtils {
 
 	/**
-	 * @return DataRows containing distinct values of the given properties in the given entity.
+	 * @return A list of distinct values of the specified property
 	 *
 	 * @param oc The ObjectContext to fetch into
 	 * @param entityClass Class of Cayenne entity to fetch
+	 * @param expression Qualifier for the query
 	 * @param properties List of properties to fetch values for
 	 */
 	public static <E> List<E> distinct( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression, Property<E> property ) {
@@ -60,10 +61,11 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return DataRows containing distinct values of the given properties in the given entity.
+	 * @return A list of distinct value combinations of the specified properties.
 	 *
 	 * @param oc The ObjectContext to fetch into
 	 * @param entityClass Class of Cayenne entity to fetch
+	 * @param expression Qualifier for the query
 	 * @param properties List of properties to fetch values for
 	 */
 	public static List<Map<String, Object>> distinctValues( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression, Property<?>... properties ) {
@@ -84,23 +86,24 @@ public class CayenneUtils {
 		b.append( " a" );
 
 		EJBQLQuery query = queryByApplyingExpression( b, expression );
-		List<Object[]> result = oc.performQuery( query );
 
-		List<Map<String, Object>> list = new ArrayList<>();
+		List<Object[]> fetchedObjects = oc.performQuery( query );
 
-		for( Object[] resultObject : result ) {
-			Map<String, Object> map = new HashMap<>();
+		List<Map<String, Object>> results = new ArrayList<>();
+
+		for( Object[] fetchedObject : fetchedObjects ) {
+			Map<String, Object> resultObject = new HashMap<>();
 
 			for( int i = 0; i < properties.length; i++ ) {
 				String key = properties[i].getName();
-				Object value = resultObject[i];
-				map.put( key, value );
+				Object value = fetchedObject[i];
+				resultObject.put( key, value );
 			}
 
-			list.add( map );
+			results.add( resultObject );
 		}
 
-		return list;
+		return results;
 	}
 
 	/**
