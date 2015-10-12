@@ -13,7 +13,6 @@ import java.util.Set;
 
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
-import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.exp.Property;
@@ -27,7 +26,6 @@ import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.query.EJBQLQuery;
-import org.apache.cayenne.query.SelectQuery;
 import org.apache.cayenne.util.CayenneMapEntry;
 
 import is.rebbi.core.util.DateUtilities;
@@ -174,11 +172,6 @@ public class CayenneUtils {
 	 * @return The number of rows matching the given expression.
 	 */
 	public static long count( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression ) {
-		SelectQuery<?> q = new SelectQuery<>( entityClass );
-		q.setQualifier( expression );
-		return AggregateUtils.count( (DataContext)oc, q );
-
-		/*
 		StringBuilder b = new StringBuilder();
 		b.append( "SELECT count(a) " );
 		b.append( " FROM " );
@@ -193,7 +186,6 @@ public class CayenneUtils {
 		}
 
 		throw new IllegalStateException( "Execution should never reach here (count is returned in the above loop)" );
-		*/
 	}
 
 	public static <E> E max( ObjectContext oc, Class<? extends DataObject> entityClass, Property<E> property, Expression expression ) {

@@ -10,7 +10,7 @@ import jambalaya.interfaces.TimeStampedCreation;
 import jambalaya.interfaces.TimeStampedModification;
 
 /**
- * Looks at objects before they are committed. If they implement "Timestamped", the corresponding values of the objects will be updated on creation and update. 
+ * Looks at objects before they are committed. If they implement "Timestamped", the corresponding values of the objects will be updated on creation and update.
  */
 
 public class TimestampedListener {
