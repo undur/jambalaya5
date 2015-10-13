@@ -28,8 +28,8 @@ import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.query.EJBQLQuery;
 import org.apache.cayenne.util.CayenneMapEntry;
 
+import is.rebbi.core.kvc.KVC;
 import is.rebbi.core.util.DateUtilities;
-import is.rebbi.core.util.KVC;
 import is.rebbi.core.util.StringUtilities;
 
 /**
@@ -138,6 +138,8 @@ public class CayenneUtils {
 		}
 
 		String queryString = ejbqlString.toString();
+
+		System.out.println( "queryString: " + queryString );
 		EJBQLQuery query = new EJBQLQuery( queryString );
 
 		for( int i = 0; i < parameters.size(); i++ ) {
@@ -179,6 +181,7 @@ public class CayenneUtils {
 		b.append( " a" );
 
 		EJBQLQuery query = queryByApplyingExpression( b, expression );
+
 		List result = oc.performQuery( query );
 
 		for( Object object : result ) {
