@@ -139,7 +139,6 @@ public class CayenneUtils {
 
 		String queryString = ejbqlString.toString();
 
-		System.out.println( "queryString: " + queryString );
 		EJBQLQuery query = new EJBQLQuery( queryString );
 
 		for( int i = 0; i < parameters.size(); i++ ) {
