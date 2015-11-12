@@ -54,7 +54,7 @@ public class CayenneUtils {
 		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
 		b.append( " a" );
 
-		EJBQLQuery query = queryByApplyingExpression( b, expression );
+		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
 		return oc.performQuery( query );
 	}
 
@@ -83,7 +83,7 @@ public class CayenneUtils {
 		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
 		b.append( " a" );
 
-		EJBQLQuery query = queryByApplyingExpression( b, expression );
+		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
 
 		List<Object[]> fetchedObjects = oc.performQuery( query );
 
@@ -116,7 +116,7 @@ public class CayenneUtils {
 		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
 		b.append( " a" );
 
-		EJBQLQuery query = queryByApplyingExpression( b, expression );
+		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
 		List result = oc.performQuery( query );
 
 		for( Object object : result ) {
@@ -129,15 +129,17 @@ public class CayenneUtils {
 	/**
 	 * @return an EJBQLQuery with the given expression applied to it.
 	 */
-	private static EJBQLQuery queryByApplyingExpression( StringBuilder ejbqlString, Expression expression ) {
+	public static EJBQLQuery queryByApplyingExpression( String ejbqlString, Expression expression ) {
 		List<Object> parameters = new ArrayList<>();
 
+		StringBuilder b = new StringBuilder( ejbqlString );
+
 		if( expression != null ) {
-			ejbqlString.append( " WHERE " );
-			ejbqlString.append( expression.toEJBQL( parameters, "a" ) );
+			b.append( " WHERE " );
+			b.append( expression.toEJBQL( parameters, "a" ) );
 		}
 
-		String queryString = ejbqlString.toString();
+		String queryString = b.toString();
 
 		EJBQLQuery query = new EJBQLQuery( queryString );
 
@@ -159,7 +161,7 @@ public class CayenneUtils {
 		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
 		b.append( " a" );
 
-		EJBQLQuery query = queryByApplyingExpression( b, expression );
+		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
 		List result = oc.performQuery( query );
 
 		for( Object object : result ) {
@@ -167,6 +169,11 @@ public class CayenneUtils {
 		}
 
 		throw new IllegalStateException( "Execution should never reach here (count is returned in the above loop)" );
+	}
+
+	public static <E> List<E> ejbqlQuery( ObjectContext oc, Class clazz, String ejbqlString ) {
+		EJBQLQuery query = new EJBQLQuery( ejbqlString );
+		return oc.performQuery( query );
 	}
 
 	/**
@@ -179,7 +186,7 @@ public class CayenneUtils {
 		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
 		b.append( " a" );
 
-		EJBQLQuery query = queryByApplyingExpression( b, expression );
+		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
 
 		List result = oc.performQuery( query );
 
