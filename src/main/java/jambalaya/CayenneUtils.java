@@ -9,9 +9,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.cayenne.DataObject;
+import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
@@ -26,6 +28,7 @@ import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.query.EJBQLQuery;
+import org.apache.cayenne.query.SQLTemplate;
 import org.apache.cayenne.util.CayenneMapEntry;
 
 import is.rebbi.core.kvc.KVC;
@@ -443,5 +446,41 @@ public class CayenneUtils {
 		String expressionString = e.toString();
 		expressionString = StringUtilities.replace( expressionString, ".", "+." );
 		return ExpressionFactory.exp( expressionString );
+	}
+
+	/**
+	 * Perform an SQL query and @return the result as a list of objects of the type <E>.
+	 *
+	 * @param oc The ObjectContext used to perform the query.
+	 * @param targetClass Class of the resulting objects. Must contain public fields with same names as fields in the sql query set.
+	 * @param sql The SQL string to execute
+	 */
+	public static <E> List<E> selectCustomObjects( ObjectContext oc, Class<E> targetClass, String sql ) {
+		SQLTemplate query = new SQLTemplate( targetClass, sql );
+		query.setFetchingDataRows( true );
+
+		List<DataRow> dataRows = oc.performQuery( query );
+		List<E> result = new ArrayList<>();
+
+		try {
+			for( DataRow dataRow : dataRows ) {
+				E o = targetClass.newInstance();
+
+				Set<Entry<String, Object>> entrySet = dataRow.entrySet();
+
+				for( Entry<String, Object> entry : entrySet ) {
+					String key = entry.getKey();
+					Object value = entry.getValue();
+					o.getClass().getField( key ).set( o, value );
+				}
+
+				result.add( o );
+			}
+		}
+		catch( InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e ) {
+			throw new RuntimeException( e );
+		}
+
+		return result;
 	}
 }
