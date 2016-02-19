@@ -452,7 +452,7 @@ public class CayenneUtils {
 	 * Perform an SQL query and @return the result as a list of objects of the type <E>.
 	 *
 	 * @param oc The ObjectContext used to perform the query.
-	 * @param targetClass Class of the resulting objects. Must contain public fields with same names as fields in the sql query set.
+	 * @param targetClass Class of the resulting objects. Must contain public fields with same names as fields in the sql resultset.
 	 * @param sql The SQL string to execute
 	 */
 	public static <E> List<E> selectCustomObjects( ObjectContext oc, Class<E> targetClass, String sql ) {
