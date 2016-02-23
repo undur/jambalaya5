@@ -454,6 +454,8 @@ public class CayenneUtils {
 	 * @param oc The ObjectContext used to perform the query.
 	 * @param targetClass Class of the resulting objects. Must contain public fields with same names as fields in the sql resultset.
 	 * @param sql The SQL string to execute
+	 *
+	 * FIXME: Needs to specify a root entity class.
 	 */
 	public static <E> List<E> selectCustomObjects( ObjectContext oc, Class<E> targetClass, String sql ) {
 		SQLTemplate query = new SQLTemplate( targetClass, sql );
