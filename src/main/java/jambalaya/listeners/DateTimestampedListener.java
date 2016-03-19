@@ -1,6 +1,6 @@
 package jambalaya.listeners;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.annotation.PostAdd;
@@ -18,18 +18,18 @@ public class DateTimestampedListener {
 	@PostAdd( { CayenneDataObject.class } )
 	public void handleAdd( CayenneDataObject object ) {
 		if( object instanceof DateTimeStampedCreation ) {
-			((DateTimeStampedCreation)object).setCreationDate( LocalDate.now() );
+			((DateTimeStampedCreation)object).setCreationDate( LocalDateTime.now() );
 		}
 
 		if( object instanceof DateTimeStampedModification ) {
-			((DateTimeStampedModification)object).setModificationDate( LocalDate.now() );
+			((DateTimeStampedModification)object).setModificationDate( LocalDateTime.now() );
 		}
 	}
 
 	@PostUpdate( { CayenneDataObject.class } )
 	public void handleUpdate( CayenneDataObject object ) {
 		if( object instanceof DateTimeStampedModification ) {
-			((DateTimeStampedModification)object).setModificationDate( LocalDate.now() );
+			((DateTimeStampedModification)object).setModificationDate( LocalDateTime.now() );
 		}
 	}
 }

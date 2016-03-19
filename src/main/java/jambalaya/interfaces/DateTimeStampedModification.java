@@ -1,10 +1,10 @@
 package jambalaya.interfaces;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface DateTimeStampedModification {
 
-	public abstract LocalDate modificationDate();
+	public abstract LocalDateTime modificationDate();
 
-	public abstract void setModificationDate( LocalDate t );
+	public abstract void setModificationDate( LocalDateTime t );
 }

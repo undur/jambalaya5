@@ -1,10 +1,10 @@
 package jambalaya.interfaces;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface DateTimeStampedCreation {
 
-	public abstract LocalDate creationDate();
+	public abstract LocalDateTime creationDate();
 
-	public abstract void setCreationDate( LocalDate t );
+	public abstract void setCreationDate( LocalDateTime t );
 }
