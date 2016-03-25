@@ -57,6 +57,23 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.cayenne.plugins</groupId>
+				<artifactId>maven-cayenne-plugin</artifactId>
+				<version>4.0.M3-SNAPSHOT</version>
+				<configuration>
+					<map>${project.basedir}/src/test/resources/datamap.map.xml</map>
+					<destDir>${project.basedir}/src/test/java</destDir>
+					<superTemplate>${project.basedir}/src/test/resources/wosuperclass.vm</superTemplate>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>cgen</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -92,6 +109,16 @@
 			<version>4.0.M3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.cayenne</groupId>
+			<artifactId>cayenne-java8</artifactId>
+			<version>4.0.M3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cayenne</groupId>
+			<artifactId>cayenne-lifecycle</artifactId>
+			<version>4.0.M3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.12</version>
@@ -100,6 +127,12 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.191</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
