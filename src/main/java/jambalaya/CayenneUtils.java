@@ -398,41 +398,43 @@ public class CayenneUtils {
 				last = it.next();
 			}
 
-			ObjAttribute attribute = (ObjAttribute)last;
+			if( last instanceof ObjAttribute ) {
+				ObjAttribute attribute = (ObjAttribute)last;
 
-			if( attributeIsString( attribute ) ) {
-				expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" ) );
-			}
-
-			if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
-				Date from = null;
-
-				try {
-					from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
-				}
-				catch( ParseException e1 ) {
-					e1.printStackTrace();
+				if( attributeIsString( attribute ) ) {
+					expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" ) );
 				}
 
-				Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
+				if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) ) );
+				}
 
-				List<Expression> betweenInclusiveLower = new ArrayList<>();
-				betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
-				betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
-				Expression e = ExpressionFactory.and( betweenInclusiveLower );
-				expressions.add( e );
+				if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
+				}
+
+				if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
+				}
+
+				if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
+					Date from = null;
+
+					try {
+						from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
+					}
+					catch( ParseException e1 ) {
+						e1.printStackTrace();
+					}
+
+					Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
+
+					List<Expression> betweenInclusiveLower = new ArrayList<>();
+					betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
+					betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
+					Expression e = ExpressionFactory.and( betweenInclusiveLower );
+					expressions.add( e );
+				}
 			}
 		}
 
