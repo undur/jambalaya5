@@ -13,6 +13,5 @@ public class TestDateTimeStamped {
 		Painting painting = Painting.createPainting( TestCore.newContext() );
 		assertNotNull( painting.creationDate() );
 		assertNotNull( painting.modificationDate() );
-		System.out.println( painting.creationDate() );
 	}
 }
