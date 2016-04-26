@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.annotation.PostAdd;
-import org.apache.cayenne.annotation.PostUpdate;
+import org.apache.cayenne.annotation.PreUpdate;
 
 import jambalaya.interfaces.TimeStampedCreation;
 import jambalaya.interfaces.TimeStampedModification;
@@ -26,7 +26,7 @@ public class TimestampedListener {
 		}
 	}
 
-	@PostUpdate( { CayenneDataObject.class } )
+	@PreUpdate( { CayenneDataObject.class } )
 	public void handleUpdate( CayenneDataObject object ) {
 		if( object instanceof TimeStampedModification ) {
 			((TimeStampedModification)object).setModificationDate( new Date() );
