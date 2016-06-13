@@ -174,6 +174,9 @@ public class CayenneUtils {
 		throw new IllegalStateException( "Execution should never reach here (count is returned in the above loop)" );
 	}
 
+	/**
+	 * @return The result of executing [ejbqlString]
+	 */
 	public static <E> List<E> ejbqlQuery( ObjectContext oc, Class clazz, String ejbqlString ) {
 		EJBQLQuery query = new EJBQLQuery( ejbqlString );
 		return oc.performQuery( query );
@@ -200,18 +203,30 @@ public class CayenneUtils {
 		throw new IllegalStateException( "Execution should never reach here (count is returned in the above loop)" );
 	}
 
+	/**
+	 * @return Max value of the [property] matching [expression]
+	 */
 	public static <E> E max( ObjectContext oc, Class<? extends DataObject> entityClass, Property<E> property, Expression expression ) {
 		return executeAggregateFunction( oc, entityClass, "max", property, expression );
 	}
 
+	/**
+	 * @return Max value of the [property] in the data set matching [expression]
+	 */
 	public static <E> E min( ObjectContext oc, Class<? extends DataObject> entityClass, Property<E> property, Expression expression ) {
 		return executeAggregateFunction( oc, entityClass, "min", property, expression );
 	}
 
+	/**
+	 * @return Min value of the [property] in the data set matching [expression]
+	 */
 	public static Number avg( ObjectContext oc, Class<? extends DataObject> entityClass, Property<?> property, Expression expression ) {
 		return (Number)executeAggregateFunction( oc, entityClass, "avg", property, expression );
 	}
 
+	/**
+	 * @return Sum of values in [property] in the data set matching [expression]
+	 */
 	public static Number sum( ObjectContext oc, Class<? extends DataObject> entityClass, Property<?> property, Expression expression ) {
 		return (Number)executeAggregateFunction( oc, entityClass, "sum", property, expression );
 	}
@@ -252,7 +267,7 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return A qualifier suitable for use in search for all objects in the given entity.
+	 * @return An expression that searches all attributes in the given entity.
 	 */
 	public static Expression allQualifier( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass ) {
 
@@ -304,6 +319,9 @@ public class CayenneUtils {
 		return ExpressionFactory.or( expressions );
 	}
 
+	/**
+	 * @return True if the string looks like an ISO-8601 compliant date string (without time)
+	 */
 	private static boolean isDateString( String string ) {
 		if( string == null ) {
 			return false;
@@ -339,7 +357,7 @@ public class CayenneUtils {
 	public static boolean attributeIsData( ObjAttribute attribute ) {
 		return false;
 		// FIXME: Implement;
-		//		return Date.class.equals( attribute.getJavaClass() );
+		//		return Data.class.equals( attribute.getJavaClass() );
 	}
 
 	public static boolean attributeIsBoolean( ObjAttribute currentAttribute ) {
@@ -347,7 +365,8 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * Given an entity class and a list of keyPaths you plan to display, return a list of keyPaths you should prefetch to optimize your query
+	 * Given an entity class and a list of keyPaths you plan to show on a page, this will
+	 * @return a list of keyPaths you should prefetch
 	 */
 	public static List<String> keyPathsToPrefetch( ObjectContext oc, Class entityClass, List<String> keyPaths ) {
 		Set<String> l = new HashSet<>();
@@ -359,6 +378,9 @@ public class CayenneUtils {
 		return new ArrayList<>( l );
 	}
 
+	/**
+	 * @return A list of relationships in the given keyPath.
+	 */
 	private static List<String> relationshipsInKeyPath( ObjectContext oc, Class entityClass, String keyPath ) {
 		EntityResolver entityResolver = oc.getEntityResolver();
 		ObjEntity entity = entityResolver.getObjEntity( entityClass );
@@ -384,6 +406,9 @@ public class CayenneUtils {
 		return relationships;
 	}
 
+	/**
+	 * @return An expression that searches all attributes in the given entity.
+	 */
 	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass, List<String> keyPaths ) {
 
 		ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
