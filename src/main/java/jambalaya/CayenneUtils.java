@@ -3,6 +3,7 @@ package jambalaya;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -240,15 +241,15 @@ public class CayenneUtils {
 	 *
 	 * @return The original list as a map, where keys are distinct values provided by invoking [property]
 	 */
-	public static <T, E extends DataObject> Map<T, List<E>> group( List<E> list, Property<T> property, boolean includeNulls ) {
+	public static <T, E extends DataObject> Map<T, List<E>> group( Collection<E> collection, Property<T> property, boolean includeNulls ) {
 
-		if( list == null ) {
+		if( collection == null ) {
 			throw new IllegalArgumentException( "List can't be null" );
 		}
 
 		Map<T, List<E>> map = new HashMap<>();
 
-		for( E object : list ) {
+		for( E object : collection ) {
 			T value = (T)KVC.valueForKey( object, property.getName() );
 
 			if( value != null || includeNulls ) {
