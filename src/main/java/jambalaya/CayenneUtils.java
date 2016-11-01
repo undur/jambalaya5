@@ -1,5 +1,6 @@
 package jambalaya;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -440,7 +441,7 @@ public class CayenneUtils {
 				}
 
 				if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
+					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) ) );
 				}
 
 				if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
