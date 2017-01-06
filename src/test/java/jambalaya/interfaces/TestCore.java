@@ -7,7 +7,7 @@ import org.apache.cayenne.access.dbsync.CreateIfNoSchemaStrategy;
 import org.apache.cayenne.access.dbsync.SchemaUpdateStrategy;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.configuration.server.ServerRuntimeBuilder;
-import org.apache.cayenne.java8.CayenneJava8Module;
+import org.apache.cayenne.java8.Java8Module;
 
 import jambalaya.listeners.DateTimestampedListener;
 import jambalaya.listeners.TimestampedListener;
@@ -25,7 +25,7 @@ public class TestCore {
 		if( _serverRuntime == null ) {
 			ServerRuntimeBuilder b = ServerRuntimeBuilder.builder();
 			b.addConfig( "cayenne-project.xml" );
-			b.addModule( new CayenneJava8Module() );
+			b.addModule( new Java8Module() );
 			b = b.addModule( binder -> binder.bind( SchemaUpdateStrategy.class ).to( CreateIfNoSchemaStrategy.class ) );
 			b = b.jdbcDriver( "org.h2.Driver" );
 			b = b.url( "jdbc:h2:mem:" + UUID.randomUUID().toString() );
