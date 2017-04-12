@@ -23,11 +23,11 @@ public abstract class _Painting extends CayenneDataObject {
 
     public static final String ENTITY_NAME = "Painting";
 
-    public static final Property<java.time.LocalDateTime> CREATION_DATE = new Property<>("creationDate");
-    public static final Property<java.time.LocalDateTime> MODIFICATION_DATE = new Property<>("modificationDate");
-    public static final Property<java.lang.String> NAME = new Property<>("name");
-    public static final Property<java.lang.String> UNIQUE_ID = new Property<>("uniqueID");
-    public static final Property<jambalaya.model.Artist> ARTIST = new Property<>("artist");
+    public static final Property<java.time.LocalDateTime> CREATION_DATE = Property.create( "creationDate", java.time.LocalDateTime.class );
+    public static final Property<java.time.LocalDateTime> MODIFICATION_DATE = Property.create( "modificationDate", java.time.LocalDateTime.class );
+    public static final Property<java.lang.String> NAME = Property.create( "name", java.lang.String.class );
+    public static final Property<java.lang.String> UNIQUE_ID = Property.create( "uniqueID", java.lang.String.class );
+    public static final Property<jambalaya.model.Artist> ARTIST = Property.create( "artist", jambalaya.model.Artist.class );
 
     public static final String ID_PK_COLUMN = "id";
 

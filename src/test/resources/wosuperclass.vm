@@ -65,10 +65,10 @@ public abstract class ${superClassName} extends ${baseClassName} {
 
 ## Create Keys
 #foreach( $attr in ${object.DeclaredAttributes} )
-    public static final Property<${attr.Type}> ${stringUtils.capitalizedAsConstant($attr.Name)} = new Property<>("${attr.Name}");
+    public static final Property<${attr.Type}> ${stringUtils.capitalizedAsConstant($attr.Name)} = Property.create( "${attr.Name}", ${attr.Type}.class );
 #end
 #foreach( $rel in ${object.DeclaredRelationships} )
-    public static final Property<${rel.TargetEntity.ClassName}> ${stringUtils.capitalizedAsConstant($rel.Name)} = new Property<>("${rel.Name}");
+    public static final Property<${rel.TargetEntity.ClassName}> ${stringUtils.capitalizedAsConstant($rel.Name)} = Property.create( "${rel.Name}", ${rel.TargetEntity.ClassName}.class );
 #end
 
 #if( $object.DbEntity )

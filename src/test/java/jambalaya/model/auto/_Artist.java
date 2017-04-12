@@ -24,11 +24,11 @@ public abstract class _Artist extends CayenneDataObject {
 
     public static final String ENTITY_NAME = "Artist";
 
-    public static final Property<java.util.Date> CREATION_DATE = new Property<>("creationDate");
-    public static final Property<java.util.Date> MODIFICATION_DATE = new Property<>("modificationDate");
-    public static final Property<java.lang.String> NAME = new Property<>("name");
-    public static final Property<java.lang.String> UNIQUE_ID = new Property<>("uniqueID");
-    public static final Property<jambalaya.model.Painting> PAINTINGS = new Property<>("paintings");
+    public static final Property<java.util.Date> CREATION_DATE = Property.create( "creationDate", java.util.Date.class );
+    public static final Property<java.util.Date> MODIFICATION_DATE = Property.create( "modificationDate", java.util.Date.class );
+    public static final Property<java.lang.String> NAME = Property.create( "name", java.lang.String.class );
+    public static final Property<java.lang.String> UNIQUE_ID = Property.create( "uniqueID", java.lang.String.class );
+    public static final Property<jambalaya.model.Painting> PAINTINGS = Property.create( "paintings", jambalaya.model.Painting.class );
 
     public static final String ID_PK_COLUMN = "id";
 
