@@ -35,7 +35,6 @@
 ${importUtils.setPackage($superPackageName)}##
 ${importUtils.addReservedType("${superPackageName}.${superClassName}")}##
 ${importUtils.addType("${subPackageName}.${subClassName}")}##
-${importUtils.addType("${basePackageName}.${baseClassName}")}##
 #foreach( $attr in ${object.DeclaredAttributes} )
 $importUtils.addType(${attr.Type})##
 #end
@@ -46,6 +45,9 @@ $importUtils.addType(${rel.CollectionType})##
 #end
 #end
 ${importUtils.generate()}
+
+import org.apache.cayenne.CayenneDataObject;
+
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.Ordering;
@@ -59,7 +61,7 @@ import org.apache.cayenne.exp.Property;
  * since it may be overwritten next time code is regenerated.
  * If you need to make any customizations, please use subclass.
  */
-public abstract class ${superClassName} extends ${baseClassName} {
+public abstract class ${superClassName} extends CayenneDataObject {
 
     public static final String ENTITY_NAME = "${object.Name}";
 

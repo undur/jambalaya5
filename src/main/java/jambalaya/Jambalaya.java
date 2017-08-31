@@ -2,7 +2,6 @@ package jambalaya;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
-import org.apache.cayenne.configuration.server.ServerRuntimeBuilder;
 
 public class Jambalaya {
 
@@ -17,7 +16,7 @@ public class Jambalaya {
 
 	public static ServerRuntime serverRuntime() {
 		if( _serverRuntime == null ) {
-			setServerRuntime( new ServerRuntimeBuilder().build() );
+			setServerRuntime( ServerRuntime.builder().build() );
 		}
 
 		return _serverRuntime;

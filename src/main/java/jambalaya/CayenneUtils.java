@@ -30,6 +30,7 @@ import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.query.EJBQLQuery;
+import org.apache.cayenne.query.ObjectSelect;
 import org.apache.cayenne.query.SQLTemplate;
 import org.apache.cayenne.util.CayenneMapEntry;
 
@@ -75,7 +76,7 @@ public class CayenneUtils {
 		StringBuilder b = new StringBuilder();
 		b.append( "SELECT distinct" );
 
-		for( int i = 0; i < properties.length; i++ ) {
+		for( int i = 0 ; i < properties.length ; i++ ) {
 			if( i > 0 ) {
 				b.append( "," );
 			}
@@ -97,7 +98,7 @@ public class CayenneUtils {
 		for( Object[] fetchedObject : fetchedObjects ) {
 			Map<String, Object> resultObject = new HashMap<>();
 
-			for( int i = 0; i < properties.length; i++ ) {
+			for( int i = 0 ; i < properties.length ; i++ ) {
 				String key = properties[i].getName();
 				Object value = fetchedObject[i];
 				resultObject.put( key, value );
@@ -148,7 +149,7 @@ public class CayenneUtils {
 
 		EJBQLQuery query = new EJBQLQuery( queryString );
 
-		for( int i = 0; i < parameters.size(); i++ ) {
+		for( int i = 0 ; i < parameters.size() ; i++ ) {
 			query.setParameter( i + 1, parameters.get( i ) );
 		}
 
@@ -188,21 +189,11 @@ public class CayenneUtils {
 	 * @return The number of rows matching the given expression.
 	 */
 	public static long count( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression ) {
-		StringBuilder b = new StringBuilder();
-		b.append( "SELECT count(a) " );
-		b.append( " FROM " );
-		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
-		b.append( " a" );
-
-		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
-
-		List result = oc.performQuery( query );
-
-		for( Object object : result ) {
-			return (Long)object;
-		}
-
-		throw new IllegalStateException( "Execution should never reach here (count is returned in the above loop)" );
+		return ObjectSelect
+				.query( entityClass )
+				.column( Property.COUNT )
+				.where( expression )
+				.selectOne( oc );
 	}
 
 	/**
@@ -359,7 +350,7 @@ public class CayenneUtils {
 	public static boolean attributeIsData( ObjAttribute attribute ) {
 		return false;
 		// FIXME: Implement;
-		//		return Data.class.equals( attribute.getJavaClass() );
+		// return Data.class.equals( attribute.getJavaClass() );
 	}
 
 	public static boolean attributeIsBoolean( ObjAttribute currentAttribute ) {
@@ -368,6 +359,7 @@ public class CayenneUtils {
 
 	/**
 	 * Given an entity class and a list of keyPaths you plan to show on a page, this will
+	 * 
 	 * @return a list of keyPaths you should prefetch
 	 */
 	public static List<String> keyPathsToPrefetch( ObjectContext oc, Class entityClass, List<String> keyPaths ) {
@@ -391,7 +383,7 @@ public class CayenneUtils {
 
 		StringBuilder b = new StringBuilder();
 
-		for( Iterator<CayenneMapEntry> it = entity.resolvePathComponents( keyPath ); it.hasNext(); ) {
+		for( Iterator<CayenneMapEntry> it = entity.resolvePathComponents( keyPath ) ; it.hasNext() ; ) {
 			CayenneMapEntry next = it.next();
 
 			if( next instanceof ObjRelationship ) {
@@ -421,7 +413,7 @@ public class CayenneUtils {
 
 			CayenneMapEntry last = null;
 
-			for( Iterator<CayenneMapEntry> it = entity.resolvePathComponents( keyPath ); it.hasNext(); ) {
+			for( Iterator<CayenneMapEntry> it = entity.resolvePathComponents( keyPath ) ; it.hasNext() ; ) {
 				last = it.next();
 			}
 
@@ -484,7 +476,7 @@ public class CayenneUtils {
 	 * @param targetClass Class of the resulting objects. Must contain public fields with same names as fields in the sql resultset.
 	 * @param sql The SQL string to execute
 	 *
-	 * FIXME: Needs to specify a root entity class.
+	 *            FIXME: Needs to specify a root entity class.
 	 */
 	public static <E> List<E> selectCustomObjects( ObjectContext oc, Class<E> targetClass, String sql ) {
 		SQLTemplate query = new SQLTemplate( targetClass, sql );
