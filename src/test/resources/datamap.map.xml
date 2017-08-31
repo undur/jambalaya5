@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<data-map xmlns="http://cayenne.apache.org/schema/7/modelMap"
+<data-map xmlns="http://cayenne.apache.org/schema/10/modelMap"
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://cayenne.apache.org/schema/7/modelMap http://cayenne.apache.org/schema/7/modelMap.xsd"
-	 project-version="7">
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/10/modelMap http://cayenne.apache.org/schema/10/modelMap.xsd"
+	 project-version="10">
 	<property name="defaultPackage" value="jambalaya.model"/>
 	<db-entity name="artist">
 		<db-attribute name="creation_date" type="TIMESTAMP"/>
@@ -34,7 +34,7 @@
 	<db-relationship name="paintings" source="artist" target="painting" toMany="true">
 		<db-attribute-pair source="id" target="artist_id"/>
 	</db-relationship>
-	<db-relationship name="artist" source="painting" target="artist" toMany="false">
+	<db-relationship name="artist" source="painting" target="artist">
 		<db-attribute-pair source="artist_id" target="id"/>
 	</db-relationship>
 	<obj-relationship name="paintings" source="Artist" target="Painting" deleteRule="Deny" db-relationship-path="paintings"/>

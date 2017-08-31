@@ -62,15 +62,18 @@
 				<artifactId>maven-cayenne-plugin</artifactId>
 				<version>4.1.M1-SNAPSHOT</version>
 				<configuration>
-					<map>${project.basedir}/src/test/resources/datamap.map.xml</map>
 					<destDir>${project.basedir}/src/test/java</destDir>
 					<superTemplate>${project.basedir}/src/test/resources/wosuperclass.vm</superTemplate>
 				</configuration>
 				<executions>
 					<execution>
+						<id>cgen</id>
 						<goals>
 							<goal>cgen</goal>
 						</goals>
+						<configuration>
+							<map>${project.basedir}/src/test/resources/datamap.map.xml</map>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

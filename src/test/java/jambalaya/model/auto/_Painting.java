@@ -2,10 +2,11 @@ package jambalaya.model.auto;
 
 import java.time.LocalDateTime;
 
-import org.apache.cayenne.CayenneDataObject;
-
 import jambalaya.model.Artist;
 import jambalaya.model.Painting;
+
+import org.apache.cayenne.CayenneDataObject;
+
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.Ordering;
