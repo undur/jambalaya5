@@ -20,14 +20,9 @@ import is.rebbi.core.kvc.KVC;
  *
  * DataObjectCache cache = new DataObjectCache( Person.class, Person.NAME, Person.ADDRESS );
  *
- * -- Using an exact value:
- * Map<Property<?>,Object> values = new HashMap<>();
- * values.put( Person.NAME, "Hugi" );
- * values.put( Person.ADDRESS, "Hraunteigur 23" );
- * cache.get( values );
+ * -- Using an exact value: Map<Property<?>,Object> values = new HashMap<>(); values.put( Person.NAME, "Hugi" ); values.put( Person.ADDRESS, "Hraunteigur 23" ); cache.get( values );
  *
- * -- Using an Expression (returns the first matching object in the cached list)
- * cache.get( Person.NAME.eq("Hugi").and( Person.ADDRESS.eq( "Hraunteigur 23" ) );
+ * -- Using an Expression (returns the first matching object in the cached list) cache.get( Person.NAME.eq("Hugi").and( Person.ADDRESS.eq( "Hraunteigur 23" ) );
  *
  * FIXME: Allow consumer to specify if duplicate key values should be allowed.
  */
@@ -118,6 +113,19 @@ public class DataObjectCache<E> {
 	 */
 	public List<E> get( Expression e ) {
 		return e.filterObjects( cache().values() );
+	}
+
+	/**
+	 * @return The objects matching the given expression. Null if no match is found.
+	 */
+	public E getOne( Expression e ) {
+		List<E> list = e.filterObjects( cache().values() );
+
+		if( list.size() > 1 ) {
+			throw new IllegalStateException( "Matched more than one object" );
+		}
+
+		return list.get( 0 );
 	}
 
 	/**
