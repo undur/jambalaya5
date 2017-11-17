@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.Property;
@@ -27,7 +28,7 @@ import is.rebbi.core.kvc.KVC;
  * FIXME: Allow consumer to specify if duplicate key values should be allowed.
  */
 
-public class DataObjectCache<E> {
+public class DataObjectCache<E extends DataObject> {
 
 	private static final Logger logger = LoggerFactory.getLogger( DataObjectCache.class );
 
@@ -109,6 +110,19 @@ public class DataObjectCache<E> {
 	}
 
 	/**
+	 * @return An object containing exactly the values specified in the given key map. Null if no object matches the given criteria.
+	 */
+	public E get( ObjectContext oc, Map<Property<?>, Object> key ) {
+		E object = get( key );
+
+		if( object == null ) {
+			return null;
+		}
+
+		return oc.localObject( object );
+	}
+
+	/**
 	 * @return The objects matching the given expression. Null if no match is found.
 	 */
 	public List<E> get( Expression e ) {
@@ -120,6 +134,10 @@ public class DataObjectCache<E> {
 	 */
 	public E getOne( Expression e ) {
 		List<E> list = e.filterObjects( cache().values() );
+
+		if( list.size() == 0 ) {
+			return null;
+		}
 
 		if( list.size() > 1 ) {
 			throw new IllegalStateException( "Matched more than one object" );
