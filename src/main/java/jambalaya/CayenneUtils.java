@@ -3,6 +3,7 @@ package jambalaya;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -346,6 +347,10 @@ public class CayenneUtils {
 	public static boolean attributeIsDate( ObjAttribute attribute ) {
 		return Date.class.isAssignableFrom( attribute.getJavaClass() );
 	}
+	
+	public static boolean attributeIsLocalDateTime( ObjAttribute attribute ) {
+	    return LocalDateTime.class.isAssignableFrom( attribute.getJavaClass() );
+	}
 
 	public static boolean attributeIsData( ObjAttribute attribute ) {
 		return false;
@@ -410,6 +415,7 @@ public class CayenneUtils {
 		List<Expression> expressions = new ArrayList<>();
 
 		for( String keyPath : keyPaths ) {
+		    String outerKeyPath = StringUtilities.replace( keyPath, ".", "+." );
 
 			CayenneMapEntry last = null;
 
@@ -421,19 +427,19 @@ public class CayenneUtils {
 				ObjAttribute attribute = (ObjAttribute)last;
 
 				if( attributeIsString( attribute ) ) {
-					expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" ) );
+					expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( outerKeyPath ), "%" + searchString + "%" ) );
 				}
 
 				if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) ) );
+					expressions.add( new ASTEqual( new ASTObjPath( outerKeyPath ), Integer.valueOf( searchString ) ) );
 				}
 
 				if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
+					expressions.add( new ASTEqual( new ASTObjPath( outerKeyPath ), Long.valueOf( searchString ) ) );
 				}
 
 				if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) ) );
+					expressions.add( new ASTEqual( new ASTObjPath( outerKeyPath ), new BigDecimal( searchString ) ) );
 				}
 
 				if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
@@ -449,8 +455,8 @@ public class CayenneUtils {
 					Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
 
 					List<Expression> betweenInclusiveLower = new ArrayList<>();
-					betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
-					betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
+					betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( outerKeyPath ), from ) );
+					betweenInclusiveLower.add( new ASTLess( new ASTObjPath( outerKeyPath ), to ) );
 					Expression e = ExpressionFactory.and( betweenInclusiveLower );
 					expressions.add( e );
 				}
@@ -458,15 +464,6 @@ public class CayenneUtils {
 		}
 
 		return ExpressionFactory.or( expressions );
-	}
-
-	/**
-	 * @return The same expression as before, with every keypath converted to an outer join.
-	 */
-	public static Expression convertToOuter( Expression e ) {
-		String expressionString = e.toString();
-		expressionString = StringUtilities.replace( expressionString, ".", "+." );
-		return ExpressionFactory.exp( expressionString );
 	}
 
 	/**
