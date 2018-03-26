@@ -3,6 +3,7 @@ package jambalaya;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -346,6 +347,10 @@ public class CayenneUtils {
 
 	public static boolean attributeIsDate( ObjAttribute attribute ) {
 		return Date.class.isAssignableFrom( attribute.getJavaClass() );
+	}
+	
+	public static boolean attributeIsLocalDate( ObjAttribute attribute ) {
+	    return LocalDate.class.isAssignableFrom( attribute.getJavaClass() );
 	}
 	
 	public static boolean attributeIsLocalDateTime( ObjAttribute attribute ) {
