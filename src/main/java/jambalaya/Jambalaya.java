@@ -25,4 +25,8 @@ public class Jambalaya {
 	public static ObjectContext newContext() {
 		return serverRuntime().newContext();
 	}
+
+	public static ObjectContext newContext( ObjectContext oc ) {
+		return serverRuntime().newContext( oc );
+	}
 }
