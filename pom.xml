@@ -130,29 +130,24 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cayenne</groupId>
-			<artifactId>cayenne-java8</artifactId>
-			<version>${cayenne.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cayenne</groupId>
 			<artifactId>cayenne-lifecycle</artifactId>
 			<version>${cayenne.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.21</version>
+			<version>1.7.25</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-engine</artifactId>
+		    <version>5.3.0</version>
+		    <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.191</version>
+			<version>1.4.197</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
