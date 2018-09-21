@@ -60,7 +60,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.cayenne.plugins</groupId>
-				<artifactId>maven-cayenne-plugin</artifactId>
+				<artifactId>cayenne-maven-plugin</artifactId>
 				<version>${cayenne.version}</version>
 				<configuration>
 					<destDir>${project.basedir}/src/test/java</destDir>
