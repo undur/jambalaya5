@@ -358,7 +358,7 @@ public class CayenneUtils {
     }
 
     public static boolean attributeIsData( ObjAttribute attribute ) {
-        return false;
+    	return byte[].class.isAssignableFrom( attribute.getJavaClass() );
     }
 
     public static boolean attributeIsBoolean( ObjAttribute currentAttribute ) {
