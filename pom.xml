@@ -11,7 +11,7 @@
 		<jvmtarget>1.8</jvmtarget>
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cayenne.version>4.1.M1</cayenne.version>
+		<cayenne.version>4.1.M3-SNAPSHOT</cayenne.version>
 	</properties>
 	<build>
 		<plugins>
