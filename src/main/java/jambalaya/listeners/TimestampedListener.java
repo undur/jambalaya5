@@ -2,7 +2,7 @@ package jambalaya.listeners;
 
 import java.util.Date;
 
-import org.apache.cayenne.CayenneDataObject;
+import org.apache.cayenne.BaseDataObject;
 import org.apache.cayenne.annotation.PostAdd;
 import org.apache.cayenne.annotation.PreUpdate;
 
@@ -15,8 +15,8 @@ import jambalaya.interfaces.TimeStampedModification;
 
 public class TimestampedListener {
 
-	@PostAdd( { CayenneDataObject.class } )
-	public void handleAdd( CayenneDataObject object ) {
+	@PostAdd( { BaseDataObject.class } )
+	public void handleAdd( BaseDataObject object ) {
 		if( object instanceof TimeStampedCreation ) {
 			((TimeStampedCreation)object).setCreationDate( new Date() );
 		}
@@ -26,8 +26,8 @@ public class TimestampedListener {
 		}
 	}
 
-	@PreUpdate( { CayenneDataObject.class } )
-	public void handleUpdate( CayenneDataObject object ) {
+	@PreUpdate( { BaseDataObject.class } )
+	public void handleUpdate( BaseDataObject object ) {
 		if( object instanceof TimeStampedModification ) {
 			((TimeStampedModification)object).setModificationDate( new Date() );
 		}

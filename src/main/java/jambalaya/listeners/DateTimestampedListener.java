@@ -2,7 +2,7 @@ package jambalaya.listeners;
 
 import java.time.LocalDateTime;
 
-import org.apache.cayenne.CayenneDataObject;
+import org.apache.cayenne.BaseDataObject;
 import org.apache.cayenne.annotation.PostAdd;
 import org.apache.cayenne.annotation.PreUpdate;
 
@@ -15,8 +15,8 @@ import jambalaya.interfaces.DateTimeStampedModification;
 
 public class DateTimestampedListener {
 
-	@PostAdd( { CayenneDataObject.class } )
-	public void handleAdd( CayenneDataObject object ) {
+	@PostAdd( { BaseDataObject.class } )
+	public void handleAdd( BaseDataObject object ) {
 		if( object instanceof DateTimeStampedCreation ) {
 			((DateTimeStampedCreation)object).setCreationDate( LocalDateTime.now() );
 		}
@@ -26,8 +26,8 @@ public class DateTimestampedListener {
 		}
 	}
 
-	@PreUpdate( { CayenneDataObject.class } )
-	public void handleUpdate( CayenneDataObject object ) {
+	@PreUpdate( { BaseDataObject.class } )
+	public void handleUpdate( BaseDataObject object ) {
 		if( object instanceof DateTimeStampedModification ) {
 			((DateTimeStampedModification)object).setModificationDate( LocalDateTime.now() );
 		}
