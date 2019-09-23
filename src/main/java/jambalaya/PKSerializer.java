@@ -1,0 +1,66 @@
+package jambalaya;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.cayenne.Cayenne;
+import org.apache.cayenne.DataObject;
+import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.ObjectId;
+import org.apache.cayenne.map.DbAttribute;
+import org.apache.cayenne.map.ObjEntity;
+
+public class PKSerializer {
+
+	private static final String PK_ELEMENT_SEPARATOR = "|";
+
+	@Deprecated
+	public static String serialize( DataObject dataObject ) {
+		return serialize( dataObject.getObjectId() );
+	}
+
+	public static String serialize( ObjectId oid ) {
+		Map<String, Object> idSnapshot = oid.getIdSnapshot();
+		List<String> keys = new ArrayList<>( idSnapshot.keySet() );
+		keys.sort( Comparator.naturalOrder() );
+
+		StringBuilder b = new StringBuilder();
+
+		int i = 0;
+
+		for( String key : keys ) {
+			if( i++ > 0 ) {
+				b.append( PK_ELEMENT_SEPARATOR );
+			}
+
+			b.append( idSnapshot.get( key ) );
+		}
+
+		return b.toString();
+	}
+
+	public static ObjectId deserialize( ObjectContext oc, String objEntityName, String identifier ) {
+		ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
+		Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
+		String[] components = identifier.split( "\\|" );
+
+		Map<String, Object> keyMap = new HashMap<>();
+
+		int i = 0;
+
+		for( DbAttribute attribute : primaryKeyAttributes ) {
+			keyMap.put( attribute.getName(), components[i++] );
+		}
+
+
+		return new ObjectId( objEntityName, keyMap );
+	}
+
+	public static DataObject eo( ObjectContext ec, String entityName, String pkString ) {
+		return (DataObject)Cayenne.objectForPK( ec, entityName, pkString );
+	}
+}
