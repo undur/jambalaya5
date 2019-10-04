@@ -470,42 +470,4 @@ public class CayenneUtils {
 
         return ExpressionFactory.or( expressions );
     }
-
-    /**
-     * Perform an SQL query and @return the result as a list of objects of the type <E>.
-     *
-     * @param oc The ObjectContext used to perform the query.
-     * @param targetClass Class of the resulting objects. Must contain public fields with same names as fields in the sql resultset.
-     * @param sql The SQL string to execute
-     *
-     *            FIXME: Needs to specify a root entity class.
-     */
-    public static <E> List<E> selectCustomObjects( ObjectContext oc, Class<E> targetClass, String sql ) {
-        SQLTemplate query = new SQLTemplate( targetClass, sql );
-        query.setFetchingDataRows( true );
-
-        List<DataRow> dataRows = oc.performQuery( query );
-        List<E> result = new ArrayList<>();
-
-        try {
-            for( DataRow dataRow : dataRows ) {
-                E o = targetClass.newInstance();
-
-                Set<Entry<String, Object>> entrySet = dataRow.entrySet();
-
-                for( Entry<String, Object> entry : entrySet ) {
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
-                    o.getClass().getField( key ).set( o, value );
-                }
-
-                result.add( o );
-            }
-        }
-        catch( InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e ) {
-            throw new RuntimeException( e );
-        }
-
-        return result;
-    }
 }
