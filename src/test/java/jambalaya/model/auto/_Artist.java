@@ -1,6 +1,6 @@
 package jambalaya.model.auto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jambalaya.model.Artist;
@@ -25,8 +25,8 @@ public abstract class _Artist extends CayenneDataObject {
 
     public static final String ENTITY_NAME = "Artist";
 
-    public static final Property<java.util.Date> CREATION_DATE = Property.create( "creationDate", java.util.Date.class );
-    public static final Property<java.util.Date> MODIFICATION_DATE = Property.create( "modificationDate", java.util.Date.class );
+    public static final Property<java.time.LocalDateTime> CREATION_DATE = Property.create( "creationDate", java.time.LocalDateTime.class );
+    public static final Property<java.time.LocalDateTime> MODIFICATION_DATE = Property.create( "modificationDate", java.time.LocalDateTime.class );
     public static final Property<java.lang.String> NAME = Property.create( "name", java.lang.String.class );
     public static final Property<java.lang.String> UNIQUE_ID = Property.create( "uniqueID", java.lang.String.class );
     public static final Property<jambalaya.model.Painting> PAINTINGS = Property.create( "paintings", jambalaya.model.Painting.class );
@@ -40,18 +40,18 @@ public abstract class _Artist extends CayenneDataObject {
 		return result;
 	}
 	
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         writeProperty("creationDate", creationDate);
     }
-    public Date creationDate() {
-        return (Date)readProperty("creationDate");
+    public LocalDateTime creationDate() {
+        return (LocalDateTime)readProperty("creationDate");
     }
 
-    public void setModificationDate(Date modificationDate) {
+    public void setModificationDate(LocalDateTime modificationDate) {
         writeProperty("modificationDate", modificationDate);
     }
-    public Date modificationDate() {
-        return (Date)readProperty("modificationDate");
+    public LocalDateTime modificationDate() {
+        return (LocalDateTime)readProperty("modificationDate");
     }
 
     public void setName(String name) {

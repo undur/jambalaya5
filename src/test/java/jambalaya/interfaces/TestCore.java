@@ -9,7 +9,6 @@ import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.configuration.server.ServerRuntimeBuilder;
 
 import jambalaya.listeners.DateTimestampedListener;
-import jambalaya.listeners.TimestampedListener;
 import jambalaya.listeners.UniqueIDStampedListener;
 
 /**
@@ -30,7 +29,6 @@ public class TestCore {
 
 			_serverRuntime = b.build();
 
-			_serverRuntime.getDataDomain().addListener( new TimestampedListener() );
 			_serverRuntime.getDataDomain().addListener( new DateTimestampedListener() );
 			_serverRuntime.getDataDomain().addListener( new UniqueIDStampedListener() );
 		}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data-map xmlns="http://cayenne.apache.org/schema/10/modelMap"
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://cayenne.apache.org/schema/10/modelMap http://cayenne.apache.org/schema/10/modelMap.xsd"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/10/modelMap https://cayenne.apache.org/schema/10/modelMap.xsd"
 	 project-version="10">
 	<property name="defaultPackage" value="jambalaya.model"/>
 	<db-entity name="artist">
@@ -20,8 +20,8 @@
 		<db-attribute name="unique_id" type="LONGVARCHAR"/>
 	</db-entity>
 	<obj-entity name="Artist" className="jambalaya.model.Artist" dbEntityName="artist">
-		<obj-attribute name="creationDate" type="java.util.Date" db-attribute-path="creation_date"/>
-		<obj-attribute name="modificationDate" type="java.util.Date" db-attribute-path="modification_date"/>
+		<obj-attribute name="creationDate" type="java.time.LocalDateTime" db-attribute-path="creation_date"/>
+		<obj-attribute name="modificationDate" type="java.time.LocalDateTime" db-attribute-path="modification_date"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
 		<obj-attribute name="uniqueID" type="java.lang.String" db-attribute-path="unique_id"/>
 	</obj-entity>
