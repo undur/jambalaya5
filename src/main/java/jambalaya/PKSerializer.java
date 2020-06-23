@@ -43,19 +43,18 @@ public class PKSerializer {
 		return b.toString();
 	}
 
-	public static ObjectId deserialize( ObjectContext oc, String objEntityName, String identifier ) {
-		ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
-		Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
-		String[] components = identifier.split( "\\|" );
+	public static ObjectId deserialize( final ObjectContext oc, final String objEntityName, final String identifier ) {
+		final ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
+		final Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
+		final String[] components = identifier.split( "\\|" );
 
-		Map<String, Object> keyMap = new HashMap<>();
+		final Map<String, Object> keyMap = new HashMap<>();
 
 		int i = 0;
 
 		for( DbAttribute attribute : primaryKeyAttributes ) {
 			keyMap.put( attribute.getName(), components[i++] );
 		}
-
 
 		return new ObjectId( objEntityName, keyMap );
 	}
