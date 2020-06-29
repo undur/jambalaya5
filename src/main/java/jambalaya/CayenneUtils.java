@@ -134,7 +134,7 @@ public class CayenneUtils {
     /**
      * @return an EJBQLQuery with the given expression applied to it.
      */
-    public static EJBQLQuery queryByApplyingExpression( String ejbqlString, Expression expression ) {
+    private static EJBQLQuery queryByApplyingExpression( String ejbqlString, Expression expression ) {
         List<Object> parameters = new ArrayList<>();
 
         StringBuilder b = new StringBuilder( ejbqlString );
@@ -177,14 +177,6 @@ public class CayenneUtils {
     }
 
     /**
-     * @return The result of executing [ejbqlString]
-     */
-    public static <E> List<E> ejbqlQuery( ObjectContext oc, Class clazz, String ejbqlString ) {
-        EJBQLQuery query = new EJBQLQuery( ejbqlString );
-        return oc.performQuery( query );
-    }
-
-    /**
      * @return The number of rows matching the given expression.
      */
     public static long count( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression ) {
@@ -200,20 +192,6 @@ public class CayenneUtils {
      */
     public static <E> E max( ObjectContext oc, Class<? extends DataObject> entityClass, Property<E> property, Expression expression ) {
         return executeAggregateFunction( oc, entityClass, "max", property, expression );
-    }
-
-    /**
-     * @return Max value of the [property] in the data set matching [expression]
-     */
-    public static <E> E min( ObjectContext oc, Class<? extends DataObject> entityClass, Property<E> property, Expression expression ) {
-        return executeAggregateFunction( oc, entityClass, "min", property, expression );
-    }
-
-    /**
-     * @return Min value of the [property] in the data set matching [expression]
-     */
-    public static Number avg( ObjectContext oc, Class<? extends DataObject> entityClass, Property<?> property, Expression expression ) {
-        return (Number)executeAggregateFunction( oc, entityClass, "avg", property, expression );
     }
 
     /**
