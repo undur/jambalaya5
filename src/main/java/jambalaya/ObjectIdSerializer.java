@@ -14,7 +14,7 @@ import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.map.DbAttribute;
 import org.apache.cayenne.map.ObjEntity;
 
-public class PKSerializer {
+public class ObjectIdSerializer {
 
 	private static final String PK_ELEMENT_SEPARATOR = "|";
 
