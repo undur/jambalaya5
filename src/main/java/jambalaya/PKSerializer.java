@@ -18,11 +18,6 @@ public class PKSerializer {
 
 	private static final String PK_ELEMENT_SEPARATOR = "|";
 
-	@Deprecated
-	public static String serialize( DataObject dataObject ) {
-		return serialize( dataObject.getObjectId() );
-	}
-
 	public static String serialize( ObjectId oid ) {
 		Map<String, Object> idSnapshot = oid.getIdSnapshot();
 		List<String> keys = new ArrayList<>( idSnapshot.keySet() );
