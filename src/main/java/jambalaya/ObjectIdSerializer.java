@@ -54,6 +54,10 @@ public class ObjectIdSerializer {
 		return new ObjectId( objEntityName, keyMap );
 	}
 
+	/**
+	 * This method should really be called something else entirely (if it should even exist)
+	 */
+	@Deprecated
 	public static DataObject eo( ObjectContext ec, String entityName, String pkString ) {
 		return (DataObject)Cayenne.objectForPK( ec, entityName, pkString );
 	}
