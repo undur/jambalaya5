@@ -12,8 +12,6 @@ import org.apache.cayenne.query.SelectQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import is.rebbi.core.kvc.KVC;
-
 /**
  * Stores a cache of DataObjects. Stored objects can then be references from a set of the objects' values.
  *
@@ -179,7 +177,7 @@ public class DataObjectCache<E extends DataObject> {
 			Map<Property<?>, Object> key = new HashMap<>();
 
 			for( Property<?> property : _properties ) {
-				key.put( property, KVC.valueForKey( object, property.getName() ) );
+				key.put( property, property.getFrom( object ) );
 			}
 
 			_cache.put( key, object );

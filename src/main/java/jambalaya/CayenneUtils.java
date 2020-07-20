@@ -33,7 +33,6 @@ import org.apache.cayenne.query.EJBQLQuery;
 import org.apache.cayenne.query.ObjectSelect;
 import org.apache.cayenne.util.CayenneMapEntry;
 
-import is.rebbi.core.kvc.KVC;
 import is.rebbi.core.util.DateUtilities;
 import is.rebbi.core.util.StringUtilities;
 
@@ -219,7 +218,7 @@ public class CayenneUtils {
         Map<T, List<E>> map = new HashMap<>();
 
         for( E object : collection ) {
-            T value = (T)KVC.valueForKey( object, property.getName() );
+            T value = property.getFrom( object );
 
             if( value != null || includeNulls ) {
                 List<E> group = map.get( value );
