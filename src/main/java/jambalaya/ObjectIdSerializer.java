@@ -51,7 +51,7 @@ public class ObjectIdSerializer {
 			keyMap.put( attribute.getName(), components[i++] );
 		}
 
-		return new ObjectId( objEntityName, keyMap );
+		return ObjectId.of( objEntityName, keyMap );
 	}
 
 	/**
