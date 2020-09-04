@@ -52,6 +52,7 @@ public class ObjectIdSerializer {
 		}
 
 		return new ObjectId( objEntityName, keyMap );
+//		return ObjectId.of( objEntityName, keyMap ); // FIXME: For Cayenne 4.2
 	}
 
 	/**
