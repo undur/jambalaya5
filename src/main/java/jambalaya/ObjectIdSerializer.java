@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cayenne.Cayenne;
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.map.DbAttribute;
@@ -53,13 +51,5 @@ public class ObjectIdSerializer {
 
 		return new ObjectId( objEntityName, keyMap );
 //		return ObjectId.of( objEntityName, keyMap ); // FIXME: For Cayenne 4.2
-	}
-
-	/**
-	 * This method should really be called something else entirely (if it should even exist)
-	 */
-	@Deprecated
-	public static DataObject eo( ObjectContext ec, String entityName, String pkString ) {
-		return (DataObject)Cayenne.objectForPK( ec, entityName, pkString );
 	}
 }
