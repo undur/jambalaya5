@@ -2,7 +2,9 @@ package jambalaya.interfaces;
 
 import java.util.UUID;
 
-public interface UUIDStamped {
+import org.apache.cayenne.Persistent;
+
+public interface UUIDStamped extends Persistent {
 
 	public UUID uniqueID();
 
