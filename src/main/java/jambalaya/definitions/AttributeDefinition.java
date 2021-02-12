@@ -1,4 +1,4 @@
-package is.rebbi.wo.definitions;
+package jambalaya.definitions;
 
 import org.apache.cayenne.exp.Property;
 

@@ -1,4 +1,4 @@
-package is.rebbi.wo.definitions;
+package jambalaya.definitions;
 
 import java.util.List;
 
