@@ -106,7 +106,7 @@ public class EntityDefinition<E extends DataObject> {
 		return _entityDefinitionProviders;
 	}
 
-	public static void registerEntityViewDefinitionProvider( ProvidesEntityDefinitions provider ) {
+	public static void registerEntityDefinitionProvider( ProvidesEntityDefinitions provider ) {
 		entityViewDefinitionProviders().add( provider );
 		invalidateCache();
 	}
