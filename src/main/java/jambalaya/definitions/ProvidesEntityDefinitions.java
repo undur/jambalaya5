@@ -5,7 +5,7 @@ import java.util.List;
 public interface ProvidesEntityDefinitions {
 
 	/**
-	 * @return A list of EntityViewDefinitions this specifies.
+	 * @return A list of EntityDefinitions provided by the implementing class
 	 */
 	public List<EntityDefinition> entityDefinitions();
 

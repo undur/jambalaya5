@@ -96,7 +96,7 @@ public class EntityDefinition<E extends DataObject> {
 		return e;
 	}
 
-	private static List<ProvidesEntityDefinitions> entityViewDefinitionProviders() {
+	private static List<ProvidesEntityDefinitions> entityDefinitionProviders() {
 		if( _entityDefinitionProviders == null ) {
 			_entityDefinitionProviders = new ArrayList<>();
 		}
@@ -107,7 +107,7 @@ public class EntityDefinition<E extends DataObject> {
 	}
 
 	public static void registerEntityDefinitionProvider( ProvidesEntityDefinitions provider ) {
-		entityViewDefinitionProviders().add( provider );
+		entityDefinitionProviders().add( provider );
 		invalidateCache();
 	}
 
@@ -123,7 +123,7 @@ public class EntityDefinition<E extends DataObject> {
 		if( _definitions == null ) {
 			_definitions = new HashMap<>();
 
-			for( ProvidesEntityDefinitions provider : entityViewDefinitionProviders() ) {
+			for( ProvidesEntityDefinitions provider : entityDefinitionProviders() ) {
 				logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
 				for( EntityDefinition e : provider.entityDefinitions() ) {
 					e.register();
@@ -415,7 +415,7 @@ public class EntityDefinition<E extends DataObject> {
 	}
 
 	public static void invalidateCache() {
-		logger.info( "Invalidating the EntityViewDefinition cache" );
+		logger.info( "Invalidating EntityDefinition cache" );
 		_definitions = null;
 	}
 }
