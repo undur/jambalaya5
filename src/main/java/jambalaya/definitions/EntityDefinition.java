@@ -383,6 +383,11 @@ public class EntityDefinition<E extends DataObject> {
 		return null;
 	}
 
+	public static void invalidateCache() {
+		logger.info( "Invalidating EntityDefinition cache" );
+		_definitions = null;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -412,10 +417,5 @@ public class EntityDefinition<E extends DataObject> {
 			return false;
 		}
 		return true;
-	}
-
-	public static void invalidateCache() {
-		logger.info( "Invalidating EntityDefinition cache" );
-		_definitions = null;
 	}
 }
