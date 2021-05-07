@@ -55,13 +55,19 @@ public class DateTimestampedListener {
 		final ObjEntity entity = dc.getEntityResolver().getObjEntity( objectId.getEntityName() );
 		final DataRow snapshot = dc.getObjectStore().getSnapshot( objectId );
 
-		for( final ObjAttribute objAttribute : entity.getAttributes() ) {
-			final Object originalValue = snapshot.get( objAttribute.getDbAttributeName() );
-			final Object currentValue = dataObject.readPropertyDirectly( objAttribute.getName() );
-
-			if( !Objects.equals( originalValue, currentValue ) ) {
-				return true;
+		if( snapshot != null ) {
+			for( final ObjAttribute objAttribute : entity.getAttributes() ) {
+				final String dbAttributeName = objAttribute.getDbAttributeName();
+				final Object originalValue = snapshot.get( dbAttributeName );
+				final Object currentValue = dataObject.readPropertyDirectly( objAttribute.getName() );
+				
+				if( !Objects.equals( originalValue, currentValue ) ) {
+					return true;
+				}
 			}
+		}
+		else {
+			System.out.println( "Snapshot is null for oid: " + objectId ); // FIXME: This should never happen but it does. Need to find out why.
 		}
 
 		return false;
