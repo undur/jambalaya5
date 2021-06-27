@@ -124,7 +124,7 @@ public class EntityDefinition<E extends DataObject> {
 			_definitions = new HashMap<>();
 
 			for( ProvidesEntityDefinitions provider : entityDefinitionProviders() ) {
-				logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
+				logger.debug( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
 				for( EntityDefinition e : provider.entityDefinitions() ) {
 					e.register();
 				}
@@ -384,7 +384,7 @@ public class EntityDefinition<E extends DataObject> {
 	}
 
 	public static void invalidateCache() {
-		logger.info( "Invalidating EntityDefinition cache" );
+		logger.debug( "Invalidating EntityDefinition cache" );
 		_definitions = null;
 	}
 
