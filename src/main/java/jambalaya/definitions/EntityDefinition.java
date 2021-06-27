@@ -153,7 +153,7 @@ public class EntityDefinition<E extends DataObject> {
 	 * Define view definition for an entity.
 	 */
 	private void register() {
-		logger.info( "Defining view for: {}", name() );
+		logger.debug( "Defining view for: {}", name() );
 
 		EntityDefinition e = get( name() );
 
