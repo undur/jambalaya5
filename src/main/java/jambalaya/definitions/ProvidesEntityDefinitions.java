@@ -2,12 +2,14 @@ package jambalaya.definitions;
 
 import java.util.List;
 
+import org.apache.cayenne.DataObject;
+
 public interface ProvidesEntityDefinitions {
 
 	/**
 	 * @return A list of EntityDefinitions provided by the implementing class
 	 */
-	public List<EntityDefinition> entityDefinitions();
+	public List<EntityDefinition<? extends DataObject>> entityDefinitions();
 
 	/**
 	 * @return The priority of this definition. Higher numbers override lower numbers.

@@ -84,8 +84,8 @@ public class EntityDefinition<E extends DataObject> {
 	/**
 	 * Define an entity.
 	 */
-	public static EntityDefinition create( final Class<?> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName ) {
-		final EntityDefinition e = new EntityDefinition();
+	public static <E extends DataObject> EntityDefinition<E> create( final Class<E> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName ) {
+		final EntityDefinition<E> e = new EntityDefinition<>();
 		e.setEntityClass( entityClass );
 
 		final String name = Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
