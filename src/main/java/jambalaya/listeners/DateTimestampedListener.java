@@ -12,6 +12,8 @@ import org.apache.cayenne.annotation.PostAdd;
 import org.apache.cayenne.annotation.PreUpdate;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jambalaya.interfaces.DateTimeStampedCreation;
 import jambalaya.interfaces.DateTimeStampedModification;
@@ -21,6 +23,8 @@ import jambalaya.interfaces.DateTimeStampedModification;
  */
 
 public class DateTimestampedListener {
+
+	private static final Logger logger = LoggerFactory.getLogger( DateTimestampedListener.class );
 
 	@PostAdd({ BaseDataObject.class })
 	public void handleAdd( BaseDataObject object ) {
@@ -60,14 +64,15 @@ public class DateTimestampedListener {
 				final String dbAttributeName = objAttribute.getDbAttributeName();
 				final Object originalValue = snapshot.get( dbAttributeName );
 				final Object currentValue = dataObject.readPropertyDirectly( objAttribute.getName() );
-				
+
 				if( !Objects.equals( originalValue, currentValue ) ) {
 					return true;
 				}
 			}
 		}
 		else {
-			System.out.println( "Snapshot is null for oid: " + objectId ); // FIXME: This should never happen but it does. Need to find out why.
+			// FIXME: This should never happen but it does. Need to find out why // Hugi 2022-05-26
+			logger.error( "Snapshot is null for oid: " + objectId );
 		}
 
 		return false;
