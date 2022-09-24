@@ -63,52 +63,6 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return A list of distinct value combinations of the specified properties.
-	 *
-	 * @param oc The ObjectContext to fetch into
-	 * @param entityClass Class of Cayenne entity to fetch
-	 * @param expression Qualifier for the query
-	 * @param properties List of properties to fetch values for
-	 */
-	public static List<Map<String, Object>> distinctValues( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression, Property<?>... properties ) {
-		StringBuilder b = new StringBuilder();
-		b.append( "SELECT distinct" );
-
-		for( int i = 0; i < properties.length; i++ ) {
-			if( i > 0 ) {
-				b.append( "," );
-			}
-
-			String attributeName = properties[i].getName();
-			b.append( " a." + attributeName );
-		}
-
-		b.append( " FROM " );
-		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
-		b.append( " a" );
-
-		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
-
-		List<Object[]> fetchedObjects = oc.performQuery( query );
-
-		List<Map<String, Object>> results = new ArrayList<>();
-
-		for( Object[] fetchedObject : fetchedObjects ) {
-			Map<String, Object> resultObject = new HashMap<>();
-
-			for( int i = 0; i < properties.length; i++ ) {
-				String key = properties[i].getName();
-				Object value = fetchedObject[i];
-				resultObject.put( key, value );
-			}
-
-			results.add( resultObject );
-		}
-
-		return results;
-	}
-
-	/**
 	 * @return The result of executing the given aggregate function on the named property of the given entityClass.
 	 */
 	private static <E> E executeAggregateFunction( ObjectContext oc, Class<? extends DataObject> entityClass, String functionName, Property<E> property, Expression expression ) {
