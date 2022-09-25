@@ -20,15 +20,15 @@ public class ObjectIdSerializer {
 	private static final String PK_ELEMENT_SEPARATOR = "|";
 
 	public static String serialize( ObjectId oid ) {
-		Map<String, Object> idSnapshot = oid.getIdSnapshot();
-		List<String> keys = new ArrayList<>( idSnapshot.keySet() );
+		final Map<String, Object> idSnapshot = oid.getIdSnapshot();
+		final List<String> keys = new ArrayList<>( idSnapshot.keySet() );
 		keys.sort( Comparator.naturalOrder() );
 
-		StringBuilder b = new StringBuilder();
+		final StringBuilder b = new StringBuilder();
 
 		int i = 0;
 
-		for( String key : keys ) {
+		for( final String key : keys ) {
 			if( i++ > 0 ) {
 				b.append( PK_ELEMENT_SEPARATOR );
 			}
@@ -62,7 +62,7 @@ public class ObjectIdSerializer {
 		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
 			// If that failed, we try doing it the 4.2 way
 			try {
-				Method method = ObjectId.class.getMethod( "of", String.class, Map.class );
+				final Method method = ObjectId.class.getMethod( "of", String.class, Map.class );
 				final ObjectId objectId = (ObjectId)method.invoke( null, objEntityName, keyMap );
 				return objectId;
 			}
@@ -70,7 +70,7 @@ public class ObjectIdSerializer {
 				throw new RuntimeException( "Failed to construct an ObjectId", e );
 			}
 		}
-//		return new ObjectId( objEntityName, keyMap );
-//		return ObjectId.of( objEntityName, keyMap ); // FIXME: For Cayenne 4.2
+		//		return new ObjectId( objEntityName, keyMap );
+		//		return ObjectId.of( objEntityName, keyMap ); // FIXME: For Cayenne 4.2
 	}
 }
