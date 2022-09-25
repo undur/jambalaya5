@@ -49,7 +49,10 @@ public class CayenneUtils {
 	 * @param entityClass Class of Cayenne entity to fetch
 	 * @param expression Qualifier for the query
 	 * @param properties List of properties to fetch values for
+	 *
+	 * @deprecated use Cayenne methods instead
 	 */
+	@Deprecated
 	public static <E> List<E> distinct( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression, Property<E> property ) {
 		StringBuilder b = new StringBuilder();
 		b.append( "SELECT distinct a." );
@@ -110,7 +113,10 @@ public class CayenneUtils {
 
 	/**
 	 * @return The number of rows matching the given expression.
+	 *
+	 * @deprecated use Cayenne methods instead
 	 */
+	@Deprecated
 	public static long countDistinct( ObjectContext oc, Class<? extends DataObject> entityClass, Property<?> property, Expression expression ) {
 		StringBuilder b = new StringBuilder();
 		b.append( "SELECT count" );
@@ -131,7 +137,10 @@ public class CayenneUtils {
 
 	/**
 	 * @return The number of rows matching the given expression.
+	 *
+	 * @deprecated use Cayenne methods instead
 	 */
+	@Deprecated
 	public static long count( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression ) {
 		return ObjectSelect
 				.query( entityClass )
@@ -142,14 +151,20 @@ public class CayenneUtils {
 
 	/**
 	 * @return Max value of the [property] matching [expression]
+	 *
+	 * @deprecated use Cayenne methods instead
 	 */
+	@Deprecated
 	public static <E> E max( ObjectContext oc, Class<? extends DataObject> entityClass, Property<E> property, Expression expression ) {
 		return executeAggregateFunction( oc, entityClass, "max", property, expression );
 	}
 
 	/**
 	 * @return Sum of values in [property] in the data set matching [expression]
+	 *
+	 * @deprecated use Cayenne methods instead
 	 */
+	@Deprecated
 	public static Number sum( ObjectContext oc, Class<? extends DataObject> entityClass, Property<?> property, Expression expression ) {
 		return (Number)executeAggregateFunction( oc, entityClass, "sum", property, expression );
 	}
