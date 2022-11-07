@@ -50,8 +50,6 @@ import org.apache.cayenne.CayenneDataObject;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
-import org.apache.cayenne.query.Ordering;
-import org.apache.cayenne.query.SelectQuery;
 
 import org.apache.cayenne.exp.Property;
 
@@ -180,58 +178,4 @@ public abstract class ${superClassName} extends CayenneDataObject {
     protected abstract void ${cbname}();
 
 #end
-
-## fetch methods
-	@SuppressWarnings("unchecked")
-	public static java.util.List<${subClassName}> fetchAll( ObjectContext oc ) {
-		SelectQuery<${subClassName}> q = new SelectQuery<>( ${subClassName}.class );
-  		return oc.performQuery( q );
- 	}
- 	
-	@SuppressWarnings("unchecked")
- 	public static java.util.List<${subClassName}> fetch( ObjectContext oc, Expression expression ) {
-  		SelectQuery<${subClassName}> q = new SelectQuery<>( ${subClassName}.class, expression );
-  		return oc.performQuery( q );
- 	}
-
-	@SuppressWarnings("unchecked")
- 	public static java.util.List<${subClassName}> fetch( ObjectContext oc, Expression expression, java.util.List<Ordering> orderings ) {
-  		SelectQuery<${subClassName}> q = new SelectQuery<>( ${subClassName}.class, expression );
-
-  		if ( orderings != null ) {
-   			for( Ordering ordering : orderings ) {
-    			q.addOrdering( ordering );
-   			}
-  		}
-
-  		return oc.performQuery( q );
- 	}
- 	
- 	@SuppressWarnings("unchecked")
- 	public static java.util.List<${subClassName}> fetchAll( ObjectContext oc, java.util.List<Ordering> orderings ) {
-  		SelectQuery<${subClassName}> q = new SelectQuery<>( ${subClassName}.class);
-
-  		if ( orderings != null ) {
-   			for( Ordering ordering : orderings ) {
-    			q.addOrdering( ordering );
-   			}
-  		}
-
-  		return oc.performQuery( q );
- 	}
- 	
- 	
-	public static ${subClassName} fetchOne(ObjectContext oc, Expression expression) {
-		java.util.List<${subClassName}> objects = fetch(oc, expression);
-		${subClassName} obj;
-		int count = objects.size();
-		if (count == 0) {
-			obj = null;
-		} else if (count == 1) {
-			obj = objects.get(0);
-		} else {
-			throw new IllegalStateException("There was more than one ${subClassName} that matched the qualifier '" + expression + "'.");
-		}
-		return obj;
-	}
 }

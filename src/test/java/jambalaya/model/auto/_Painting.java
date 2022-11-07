@@ -9,8 +9,6 @@ import org.apache.cayenne.CayenneDataObject;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
-import org.apache.cayenne.query.Ordering;
-import org.apache.cayenne.query.SelectQuery;
 
 import org.apache.cayenne.exp.Property;
 
@@ -81,57 +79,4 @@ public abstract class _Painting extends CayenneDataObject {
     }
 
 
-
-	@SuppressWarnings("unchecked")
-	public static java.util.List<Painting> fetchAll( ObjectContext oc ) {
-		SelectQuery<Painting> q = new SelectQuery<>( Painting.class );
-  		return oc.performQuery( q );
- 	}
- 	
-	@SuppressWarnings("unchecked")
- 	public static java.util.List<Painting> fetch( ObjectContext oc, Expression expression ) {
-  		SelectQuery<Painting> q = new SelectQuery<>( Painting.class, expression );
-  		return oc.performQuery( q );
- 	}
-
-	@SuppressWarnings("unchecked")
- 	public static java.util.List<Painting> fetch( ObjectContext oc, Expression expression, java.util.List<Ordering> orderings ) {
-  		SelectQuery<Painting> q = new SelectQuery<>( Painting.class, expression );
-
-  		if ( orderings != null ) {
-   			for( Ordering ordering : orderings ) {
-    			q.addOrdering( ordering );
-   			}
-  		}
-
-  		return oc.performQuery( q );
- 	}
- 	
- 	@SuppressWarnings("unchecked")
- 	public static java.util.List<Painting> fetchAll( ObjectContext oc, java.util.List<Ordering> orderings ) {
-  		SelectQuery<Painting> q = new SelectQuery<>( Painting.class);
-
-  		if ( orderings != null ) {
-   			for( Ordering ordering : orderings ) {
-    			q.addOrdering( ordering );
-   			}
-  		}
-
-  		return oc.performQuery( q );
- 	}
- 	
- 	
-	public static Painting fetchOne(ObjectContext oc, Expression expression) {
-		java.util.List<Painting> objects = fetch(oc, expression);
-		Painting obj;
-		int count = objects.size();
-		if (count == 0) {
-			obj = null;
-		} else if (count == 1) {
-			obj = objects.get(0);
-		} else {
-			throw new IllegalStateException("There was more than one Painting that matched the qualifier '" + expression + "'.");
-		}
-		return obj;
-	}
 }

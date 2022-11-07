@@ -10,8 +10,6 @@ import org.apache.cayenne.CayenneDataObject;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
-import org.apache.cayenne.query.Ordering;
-import org.apache.cayenne.query.SelectQuery;
 
 import org.apache.cayenne.exp.Property;
 
@@ -93,57 +91,4 @@ public abstract class _Artist extends CayenneDataObject {
 	}
 
 
-
-	@SuppressWarnings("unchecked")
-	public static java.util.List<Artist> fetchAll( ObjectContext oc ) {
-		SelectQuery<Artist> q = new SelectQuery<>( Artist.class );
-  		return oc.performQuery( q );
- 	}
- 	
-	@SuppressWarnings("unchecked")
- 	public static java.util.List<Artist> fetch( ObjectContext oc, Expression expression ) {
-  		SelectQuery<Artist> q = new SelectQuery<>( Artist.class, expression );
-  		return oc.performQuery( q );
- 	}
-
-	@SuppressWarnings("unchecked")
- 	public static java.util.List<Artist> fetch( ObjectContext oc, Expression expression, java.util.List<Ordering> orderings ) {
-  		SelectQuery<Artist> q = new SelectQuery<>( Artist.class, expression );
-
-  		if ( orderings != null ) {
-   			for( Ordering ordering : orderings ) {
-    			q.addOrdering( ordering );
-   			}
-  		}
-
-  		return oc.performQuery( q );
- 	}
- 	
- 	@SuppressWarnings("unchecked")
- 	public static java.util.List<Artist> fetchAll( ObjectContext oc, java.util.List<Ordering> orderings ) {
-  		SelectQuery<Artist> q = new SelectQuery<>( Artist.class);
-
-  		if ( orderings != null ) {
-   			for( Ordering ordering : orderings ) {
-    			q.addOrdering( ordering );
-   			}
-  		}
-
-  		return oc.performQuery( q );
- 	}
- 	
- 	
-	public static Artist fetchOne(ObjectContext oc, Expression expression) {
-		java.util.List<Artist> objects = fetch(oc, expression);
-		Artist obj;
-		int count = objects.size();
-		if (count == 0) {
-			obj = null;
-		} else if (count == 1) {
-			obj = objects.get(0);
-		} else {
-			throw new IllegalStateException("There was more than one Artist that matched the qualifier '" + expression + "'.");
-		}
-		return obj;
-	}
 }
