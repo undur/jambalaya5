@@ -8,7 +8,7 @@ import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.Property;
-import org.apache.cayenne.query.SelectQuery;
+import org.apache.cayenne.query.ObjectSelect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,7 @@ public class DataObjectCache<E extends DataObject> {
 	 */
 	private ObjectContext _objectContext;
 
-	private SelectQuery<E> _query;
+	private ObjectSelect<E> _query;
 
 	/**
 	 * The keys along with their corresponding objects.
@@ -81,7 +81,7 @@ public class DataObjectCache<E extends DataObject> {
 	 * @param entityClass The class to store objects for.
 	 * @param properties A list of properties to use as keys.
 	 */
-	public DataObjectCache( ObjectContext objectContext, SelectQuery<E> query, Property<?>... properties ) {
+	public DataObjectCache( ObjectContext objectContext, ObjectSelect<E> query, Property<?>... properties ) {
 
 		if( objectContext == null ) {
 			throw new IllegalArgumentException( "You must specify an objectContext" );
@@ -155,9 +155,9 @@ public class DataObjectCache<E extends DataObject> {
 		return _cache;
 	}
 
-	private SelectQuery<E> query() {
+	private ObjectSelect<E> query() {
 		if( _query == null ) {
-			_query = new SelectQuery<>( _entityClass );
+			_query = ObjectSelect.query( _entityClass );
 		}
 
 		return _query;
