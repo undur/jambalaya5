@@ -63,7 +63,7 @@
 				<version>${cayenne.version}</version>
 				<configuration>
 					<destDir>${project.basedir}/src/test/java</destDir>
-					<superTemplate>${project.basedir}/src/test/resources/wosuperclass.vm</superTemplate>
+					<superTemplate>${project.basedir}/src/test/resources/wosuperclass41.vm</superTemplate>
 				</configuration>
 				<executions>
 					<execution>

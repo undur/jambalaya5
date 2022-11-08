@@ -10,7 +10,7 @@ public class TestDateTimeStamped {
 
 	@Test
 	public void testCreationAndModificationDateAssignedAtObjectAdd() {
-		Painting painting = Painting.createPainting( TestCore.newContext() );
+		Painting painting = TestCore.newContext().newObject( Painting.class );
 		assertNotNull( painting.creationDate() );
 		assertNotNull( painting.modificationDate() );
 	}

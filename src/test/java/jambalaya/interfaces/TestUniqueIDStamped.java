@@ -10,7 +10,7 @@ public class TestUniqueIDStamped {
 
 	@Test
 	public void testUniqueIDAssignedAtObjectAdd() {
-		Artist artist = Artist.createArtist( TestCore.newContext() );
+		Artist artist = TestCore.newContext().newObject( Artist.class );
 		assertNotNull( artist.uniqueID() );
 	}
 }
