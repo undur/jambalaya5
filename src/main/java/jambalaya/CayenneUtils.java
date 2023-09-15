@@ -371,9 +371,7 @@ public class CayenneUtils {
 				last = it.next();
 			}
 
-			if( last instanceof ObjAttribute ) {
-				ObjAttribute attribute = (ObjAttribute)last;
-
+			if( last instanceof ObjAttribute attribute ) {
 				if( attributeIsString( attribute ) ) {
 					expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( outerKeyPath ), "%" + searchString + "%" ) );
 				}
