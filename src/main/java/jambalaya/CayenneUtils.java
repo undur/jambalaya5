@@ -388,6 +388,17 @@ public class CayenneUtils {
 					l.add( new ASTLess( new ASTObjPath( keyPath ), DateUtilities.toDate( to ) ) );
 					return ExpressionFactory.and( l );
 				}
+
+				if( attributeIsLocalDate( attribute ) ) {
+					return new ASTEqual( new ASTObjPath( keyPath ), from.atStartOfDay() );
+				}
+
+				if( attributeIsLocalDateTime( attribute ) ) {
+					final List<Expression> l = new ArrayList<>();
+					l.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from.atStartOfDay() ) );
+					l.add( new ASTLess( new ASTObjPath( keyPath ), to.atStartOfDay() ) );
+					return ExpressionFactory.and( l );
+				}
 			}
 			catch( DateTimeParseException e ) {
 				e.printStackTrace();
