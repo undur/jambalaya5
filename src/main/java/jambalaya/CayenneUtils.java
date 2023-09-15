@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.cayenne.DataObject;
@@ -309,45 +310,15 @@ public class CayenneUtils {
 			return null;
 		}
 
-		List<Expression> expressions = new ArrayList<>();
-
-		ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
+		final ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
+		final List<Expression> expressions = new ArrayList<>();
 
 		for( ObjAttribute attribute : entity.getAttributes() ) {
 			final String keyPath = attribute.getName();
 
-			if( attributeIsString( attribute ) ) {
-				expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" ) );
-			}
+			final Expression e = expression( searchString, attribute, keyPath );
 
-			if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) ) );
-			}
-
-			if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
-				Date from = null;
-
-				try {
-					from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
-				}
-				catch( ParseException e1 ) {
-					e1.printStackTrace();
-				}
-
-				Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
-
-				List<Expression> betweenInclusiveLower = new ArrayList<>();
-				betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
-				betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
-				Expression e = ExpressionFactory.and( betweenInclusiveLower );
+			if( e != null ) {
 				expressions.add( e );
 			}
 		}
@@ -360,9 +331,8 @@ public class CayenneUtils {
 	 */
 	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass, List<String> keyPaths ) {
 
-		ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
-
-		List<Expression> expressions = new ArrayList<>();
+		final ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
+		final List<Expression> expressions = new ArrayList<>();
 
 		for( String keyPath : keyPaths ) {
 			keyPath = StringUtilities.replace( keyPath, ".", "+." );
@@ -374,43 +344,56 @@ public class CayenneUtils {
 			}
 
 			if( last instanceof ObjAttribute attribute ) {
-				if( attributeIsString( attribute ) ) {
-					expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" ) );
-				}
+				final Expression e = expression( searchString, attribute, keyPath );
 
-				if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) ) );
-				}
-
-				if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
-				}
-
-				if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) ) );
-				}
-
-				if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
-					Date from = null;
-
-					try {
-						from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
-					}
-					catch( ParseException e1 ) {
-						e1.printStackTrace();
-					}
-
-					Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
-
-					List<Expression> betweenInclusiveLower = new ArrayList<>();
-					betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
-					betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
-					Expression e = ExpressionFactory.and( betweenInclusiveLower );
+				if( e != null ) {
 					expressions.add( e );
 				}
 			}
 		}
 
 		return ExpressionFactory.or( expressions );
+	}
+
+	private static Expression expression( String searchString, ObjAttribute attribute, String keyPath ) {
+		Objects.requireNonNull( searchString );
+		Objects.requireNonNull( attribute );
+		Objects.requireNonNull( keyPath );
+
+		if( attributeIsString( attribute ) ) {
+			return new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" );
+		}
+
+		if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+			return new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) );
+		}
+
+		if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+			return new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) );
+		}
+
+		if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+			return new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) );
+		}
+
+		if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
+			Date from = null;
+
+			try {
+				from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
+			}
+			catch( ParseException e1 ) {
+				e1.printStackTrace();
+			}
+
+			Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
+
+			List<Expression> betweenInclusiveLower = new ArrayList<>();
+			betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
+			betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
+			return ExpressionFactory.and( betweenInclusiveLower );
+		}
+
+		return null;
 	}
 }
