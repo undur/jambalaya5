@@ -394,6 +394,8 @@ public class CayenneUtils {
 			return ExpressionFactory.and( betweenInclusiveLower );
 		}
 
+		// FIXME: Missing LocalDate and LocalDateTime
+
 		return null;
 	}
 }
