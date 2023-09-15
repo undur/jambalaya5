@@ -1,10 +1,9 @@
 package jambalaya;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -364,34 +363,35 @@ public class CayenneUtils {
 			return new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" );
 		}
 
-		if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-			return new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) );
+		if( StringUtilities.isDigitsOnly( searchString ) ) {
+			if( attributeIsInteger( attribute ) ) {
+				return new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) );
+			}
+
+			if( attributeIsLong( attribute ) ) {
+				return new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) );
+			}
+
+			if( attributeIsBigDecimal( attribute ) ) {
+				return new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) );
+			}
 		}
 
-		if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-			return new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) );
-		}
-
-		if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-			return new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) );
-		}
-
-		if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
-			Date from = null;
-
+		if( isDateString( searchString ) ) {
 			try {
-				from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
-			}
-			catch( ParseException e1 ) {
-				e1.printStackTrace();
-			}
+				final LocalDate from = LocalDate.parse( searchString );
+				final LocalDate to = from.plusDays( 1 );
 
-			Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
-
-			List<Expression> betweenInclusiveLower = new ArrayList<>();
-			betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
-			betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
-			return ExpressionFactory.and( betweenInclusiveLower );
+				if( attributeIsDate( attribute ) ) {
+					final List<Expression> l = new ArrayList<>();
+					l.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), DateUtilities.toDate( from ) ) );
+					l.add( new ASTLess( new ASTObjPath( keyPath ), DateUtilities.toDate( to ) ) );
+					return ExpressionFactory.and( l );
+				}
+			}
+			catch( DateTimeParseException e ) {
+				e.printStackTrace();
+			}
 		}
 
 		// FIXME: Missing LocalDate and LocalDateTime
