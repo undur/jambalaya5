@@ -205,59 +205,6 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return An expression that searches all attributes in the given entity.
-	 */
-	public static Expression allQualifier( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass ) {
-
-		if( searchString == null ) {
-			return null;
-		}
-
-		List<Expression> expressions = new ArrayList<>();
-
-		ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
-
-		for( ObjAttribute attribute : entity.getAttributes() ) {
-			if( attributeIsString( attribute ) ) {
-				expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( attribute.getName() ), "%" + searchString + "%" ) );
-			}
-
-			if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Integer.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Long.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Long.valueOf( searchString ) ) );
-			}
-
-			if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
-				Date from = null;
-
-				try {
-					from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
-				}
-				catch( ParseException e1 ) {
-					e1.printStackTrace();
-				}
-
-				Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
-
-				List<Expression> betweenInclusiveLower = new ArrayList<>();
-				betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( attribute.getName() ), from ) );
-				betweenInclusiveLower.add( new ASTLess( new ASTObjPath( attribute.getName() ), to ) );
-				Expression e = ExpressionFactory.and( betweenInclusiveLower );
-				expressions.add( e );
-			}
-		}
-
-		return ExpressionFactory.or( expressions );
-	}
-
-	/**
 	 * @return True if the string looks like an ISO-8601 compliant date string (without time)
 	 */
 	private static boolean isDateString( String string ) {
@@ -351,6 +298,59 @@ public class CayenneUtils {
 		}
 
 		return relationships;
+	}
+
+	/**
+	 * @return An expression that searches all attributes in the given entity.
+	 */
+	public static Expression allQualifier( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass ) {
+
+		if( searchString == null ) {
+			return null;
+		}
+
+		List<Expression> expressions = new ArrayList<>();
+
+		ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
+
+		for( ObjAttribute attribute : entity.getAttributes() ) {
+			if( attributeIsString( attribute ) ) {
+				expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( attribute.getName() ), "%" + searchString + "%" ) );
+			}
+
+			if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Integer.valueOf( searchString ) ) );
+			}
+
+			if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Long.valueOf( searchString ) ) );
+			}
+
+			if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
+				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Long.valueOf( searchString ) ) );
+			}
+
+			if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
+				Date from = null;
+
+				try {
+					from = new SimpleDateFormat( "yyyy-MM-dd" ).parse( searchString );
+				}
+				catch( ParseException e1 ) {
+					e1.printStackTrace();
+				}
+
+				Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
+
+				List<Expression> betweenInclusiveLower = new ArrayList<>();
+				betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( attribute.getName() ), from ) );
+				betweenInclusiveLower.add( new ASTLess( new ASTObjPath( attribute.getName() ), to ) );
+				Expression e = ExpressionFactory.and( betweenInclusiveLower );
+				expressions.add( e );
+			}
+		}
+
+		return ExpressionFactory.or( expressions );
 	}
 
 	/**
