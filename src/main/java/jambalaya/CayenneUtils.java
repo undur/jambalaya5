@@ -314,20 +314,22 @@ public class CayenneUtils {
 		ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
 
 		for( ObjAttribute attribute : entity.getAttributes() ) {
+			final String keyPath = attribute.getName();
+
 			if( attributeIsString( attribute ) ) {
-				expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( attribute.getName() ), "%" + searchString + "%" ) );
+				expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" ) );
 			}
 
 			if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Integer.valueOf( searchString ) ) );
+				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) ) );
 			}
 
 			if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Long.valueOf( searchString ) ) );
+				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
 			}
 
 			if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-				expressions.add( new ASTEqual( new ASTObjPath( attribute.getName() ), Long.valueOf( searchString ) ) );
+				expressions.add( new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) ) );
 			}
 
 			if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
@@ -343,8 +345,8 @@ public class CayenneUtils {
 				Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
 
 				List<Expression> betweenInclusiveLower = new ArrayList<>();
-				betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( attribute.getName() ), from ) );
-				betweenInclusiveLower.add( new ASTLess( new ASTObjPath( attribute.getName() ), to ) );
+				betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
+				betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
 				Expression e = ExpressionFactory.and( betweenInclusiveLower );
 				expressions.add( e );
 			}
@@ -363,7 +365,7 @@ public class CayenneUtils {
 		List<Expression> expressions = new ArrayList<>();
 
 		for( String keyPath : keyPaths ) {
-			String outerKeyPath = StringUtilities.replace( keyPath, ".", "+." );
+			keyPath = StringUtilities.replace( keyPath, ".", "+." );
 
 			CayenneMapEntry last = null;
 
@@ -373,19 +375,19 @@ public class CayenneUtils {
 
 			if( last instanceof ObjAttribute attribute ) {
 				if( attributeIsString( attribute ) ) {
-					expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( outerKeyPath ), "%" + searchString + "%" ) );
+					expressions.add( new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" ) );
 				}
 
 				if( attributeIsInteger( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( outerKeyPath ), Integer.valueOf( searchString ) ) );
+					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) ) );
 				}
 
 				if( attributeIsLong( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( outerKeyPath ), Long.valueOf( searchString ) ) );
+					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) ) );
 				}
 
 				if( attributeIsBigDecimal( attribute ) && StringUtilities.isDigitsOnly( searchString ) ) {
-					expressions.add( new ASTEqual( new ASTObjPath( outerKeyPath ), new BigDecimal( searchString ) ) );
+					expressions.add( new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) ) );
 				}
 
 				if( attributeIsDate( attribute ) && isDateString( searchString ) ) {
@@ -401,8 +403,8 @@ public class CayenneUtils {
 					Date to = DateUtilities.dateByAddingGregorianUnits( from, 0, 0, 1, 0, 0, 0 );
 
 					List<Expression> betweenInclusiveLower = new ArrayList<>();
-					betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( outerKeyPath ), from ) );
-					betweenInclusiveLower.add( new ASTLess( new ASTObjPath( outerKeyPath ), to ) );
+					betweenInclusiveLower.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from ) );
+					betweenInclusiveLower.add( new ASTLess( new ASTObjPath( keyPath ), to ) );
 					Expression e = ExpressionFactory.and( betweenInclusiveLower );
 					expressions.add( e );
 				}
