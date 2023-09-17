@@ -334,7 +334,7 @@ public class CayenneUtils {
 		final List<Expression> expressions = new ArrayList<>();
 
 		for( String keyPath : keyPaths ) {
-			keyPath = StringUtilities.replace( keyPath, ".", "+." );
+			keyPath = keyPath.replace( ".", "+." );
 
 			CayenneMapEntry last = null;
 
