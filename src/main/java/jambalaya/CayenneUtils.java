@@ -305,6 +305,7 @@ public class CayenneUtils {
 	 */
 	public static Expression allQualifier( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass ) {
 
+		// FIXME: Whould this check be here?
 		if( searchString == null ) {
 			return null;
 		}
@@ -404,8 +405,6 @@ public class CayenneUtils {
 				e.printStackTrace();
 			}
 		}
-
-		// FIXME: Missing LocalDate and LocalDateTime
 
 		return null;
 	}
