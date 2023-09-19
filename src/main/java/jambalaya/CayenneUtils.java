@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
@@ -219,6 +220,10 @@ public class CayenneUtils {
 		return java.math.BigDecimal.class.isAssignableFrom( attribute.getJavaClass() );
 	}
 
+	public static boolean attributeIsUUID( ObjAttribute attribute ) {
+		return java.util.UUID.class.isAssignableFrom( attribute.getJavaClass() );
+	}
+
 	public static boolean attributeIsLong( ObjAttribute attribute ) {
 		return java.lang.Long.class.isAssignableFrom( attribute.getJavaClass() );
 	}
@@ -413,6 +418,17 @@ public class CayenneUtils {
 			}
 			catch( DateTimeParseException e ) {
 				e.printStackTrace();
+			}
+		}
+
+		if( attributeIsUUID( attribute ) ) {
+			try {
+				final UUID uuid = UUID.fromString( searchString );
+				return new ASTEqual( new ASTObjPath( keyPath ), uuid );
+			}
+			catch( IllegalArgumentException e ) {
+				// What happened here is that we don't have an exact match for the UUID.
+				// Having a "like" (contains) for UUID types sould be nice though.
 			}
 		}
 
