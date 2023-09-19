@@ -323,6 +323,11 @@ public class CayenneUtils {
 			}
 		}
 
+		// If no expressions were created, we're just returning false from here
+		if( expressions.isEmpty() ) {
+			return ExpressionFactory.expFalse();
+		}
+
 		return ExpressionFactory.or( expressions );
 	}
 
@@ -350,6 +355,11 @@ public class CayenneUtils {
 					expressions.add( e );
 				}
 			}
+		}
+
+		// If no expressions were created, we're just returning false from here
+		if( expressions.isEmpty() ) {
+			return ExpressionFactory.expFalse();
 		}
 
 		return ExpressionFactory.or( expressions );
