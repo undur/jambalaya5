@@ -15,8 +15,9 @@ public class Jambalaya {
 	}
 
 	public static ServerRuntime serverRuntime() {
+
 		if( _serverRuntime == null ) {
-			setServerRuntime( ServerRuntime.builder().build() );
+			throw new IllegalStateException( "A server runtime has not been set" );
 		}
 
 		return _serverRuntime;
