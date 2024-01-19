@@ -31,7 +31,6 @@ import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.query.EJBQLQuery;
-import org.apache.cayenne.query.ObjectSelect;
 import org.apache.cayenne.util.CayenneMapEntry;
 
 import is.rebbi.core.util.DateUtilities;
@@ -110,44 +109,6 @@ public class CayenneUtils {
 		}
 
 		return query;
-	}
-
-	/**
-	 * @return The number of rows matching the given expression.
-	 *
-	 * @deprecated use Cayenne methods instead
-	 */
-	@Deprecated
-	public static long countDistinct( ObjectContext oc, Class<? extends DataObject> entityClass, Property<?> property, Expression expression ) {
-		StringBuilder b = new StringBuilder();
-		b.append( "SELECT count" );
-		b.append( "(distinct a." + property.getName() + ")" );
-		b.append( " FROM " );
-		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
-		b.append( " a" );
-
-		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
-		List result = oc.performQuery( query );
-
-		for( Object object : result ) {
-			return (Long)object;
-		}
-
-		throw new IllegalStateException( "Execution should never reach here (count is returned in the above loop)" );
-	}
-
-	/**
-	 * @return The number of rows matching the given expression.
-	 *
-	 * @deprecated use Cayenne methods instead
-	 */
-	@Deprecated
-	public static long count( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression ) {
-		return ObjectSelect
-				.query( entityClass )
-				.column( Property.COUNT )
-				.where( expression )
-				.selectOne( oc );
 	}
 
 	/**
