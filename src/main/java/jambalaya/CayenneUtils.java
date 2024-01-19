@@ -112,16 +112,6 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return Max value of the [property] matching [expression]
-	 *
-	 * @deprecated use Cayenne methods instead
-	 */
-	@Deprecated
-	public static <E> E max( ObjectContext oc, Class<? extends DataObject> entityClass, Property<E> property, Expression expression ) {
-		return executeAggregateFunction( oc, entityClass, "max", property, expression );
-	}
-
-	/**
 	 * @return Sum of values in [property] in the data set matching [expression]
 	 *
 	 * @deprecated use Cayenne methods instead
