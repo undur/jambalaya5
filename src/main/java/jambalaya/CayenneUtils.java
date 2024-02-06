@@ -30,7 +30,6 @@ import org.apache.cayenne.map.EntityResolver;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
-import org.apache.cayenne.query.EJBQLQuery;
 import org.apache.cayenne.util.CayenneMapEntry;
 
 import is.rebbi.core.util.DateUtilities;
@@ -41,53 +40,6 @@ import is.rebbi.core.util.StringUtilities;
  */
 
 public class CayenneUtils {
-
-	/**
-	 * @return A list of distinct values of the specified property
-	 *
-	 * @param oc The ObjectContext to fetch into
-	 * @param entityClass Class of Cayenne entity to fetch
-	 * @param expression Qualifier for the query
-	 * @param properties List of properties to fetch values for
-	 *
-	 * @deprecated use Cayenne methods instead
-	 */
-	@Deprecated
-	public static <E> List<E> distinct( ObjectContext oc, Class<? extends DataObject> entityClass, Expression expression, Property<E> property ) {
-		StringBuilder b = new StringBuilder();
-		b.append( "SELECT distinct a." );
-		b.append( property.getName() );
-		b.append( " FROM " );
-		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
-		b.append( " a" );
-
-		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
-		return oc.performQuery( query );
-	}
-
-	/**
-	 * @return an EJBQLQuery with the given expression applied to it.
-	 */
-	private static EJBQLQuery queryByApplyingExpression( String ejbqlString, Expression expression ) {
-		List<Object> parameters = new ArrayList<>();
-
-		StringBuilder b = new StringBuilder( ejbqlString );
-
-		if( expression != null ) {
-			b.append( " WHERE " );
-			b.append( expression.toEJBQL( parameters, "a" ) );
-		}
-
-		String queryString = b.toString();
-
-		EJBQLQuery query = new EJBQLQuery( queryString );
-
-		for( int i = 0; i < parameters.size(); i++ ) {
-			query.setParameter( i + 1, parameters.get( i ) );
-		}
-
-		return query;
-	}
 
 	/**
 	 * Group a list of DataObject by a property.
