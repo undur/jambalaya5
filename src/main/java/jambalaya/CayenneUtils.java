@@ -66,28 +66,6 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return The result of executing the given aggregate function on the named property of the given entityClass.
-	 */
-	private static <E> E executeAggregateFunction( ObjectContext oc, Class<? extends DataObject> entityClass, String functionName, Property<E> property, Expression expression ) {
-		StringBuilder b = new StringBuilder();
-		b.append( "SELECT " );
-		b.append( functionName );
-		b.append( "(a." + property.getName() + ")" );
-		b.append( " FROM " );
-		b.append( oc.getEntityResolver().getObjEntity( entityClass ).getName() );
-		b.append( " a" );
-
-		EJBQLQuery query = queryByApplyingExpression( b.toString(), expression );
-		List result = oc.performQuery( query );
-
-		for( Object object : result ) {
-			return (E)object;
-		}
-
-		throw new IllegalStateException( "Execution should never reach here (count is returned in the above loop)" );
-	}
-
-	/**
 	 * @return an EJBQLQuery with the given expression applied to it.
 	 */
 	private static EJBQLQuery queryByApplyingExpression( String ejbqlString, Expression expression ) {
