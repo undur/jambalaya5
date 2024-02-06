@@ -112,16 +112,6 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return Sum of values in [property] in the data set matching [expression]
-	 *
-	 * @deprecated use Cayenne methods instead
-	 */
-	@Deprecated
-	public static Number sum( ObjectContext oc, Class<? extends DataObject> entityClass, Property<?> property, Expression expression ) {
-		return (Number)executeAggregateFunction( oc, entityClass, "sum", property, expression );
-	}
-
-	/**
 	 * Group a list of DataObject by a property.
 	 *
 	 * @param The list of objects to group
