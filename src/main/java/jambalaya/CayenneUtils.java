@@ -88,23 +88,23 @@ public class CayenneUtils {
 	}
 
 	public static boolean attributeIsBigDecimal( ObjAttribute attribute ) {
-		return java.math.BigDecimal.class.isAssignableFrom( attribute.getJavaClass() );
+		return BigDecimal.class.isAssignableFrom( attribute.getJavaClass() );
 	}
 
 	public static boolean attributeIsUUID( ObjAttribute attribute ) {
-		return java.util.UUID.class.isAssignableFrom( attribute.getJavaClass() );
+		return UUID.class.isAssignableFrom( attribute.getJavaClass() );
 	}
 
 	public static boolean attributeIsLong( ObjAttribute attribute ) {
-		return java.lang.Long.class.isAssignableFrom( attribute.getJavaClass() );
+		return Long.class.isAssignableFrom( attribute.getJavaClass() );
 	}
 
 	public static boolean attributeIsInteger( ObjAttribute attribute ) {
-		return java.lang.Integer.class.isAssignableFrom( attribute.getJavaClass() );
+		return Integer.class.isAssignableFrom( attribute.getJavaClass() );
 	}
 
 	public static boolean attributeIsDecimal( ObjAttribute attribute ) {
-		return java.math.BigDecimal.class.isAssignableFrom( attribute.getJavaClass() );
+		return BigDecimal.class.isAssignableFrom( attribute.getJavaClass() );
 	}
 
 	public static boolean attributeIsString( ObjAttribute attribute ) {
