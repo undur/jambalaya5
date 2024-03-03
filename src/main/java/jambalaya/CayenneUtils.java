@@ -179,7 +179,7 @@ public class CayenneUtils {
 	/**
 	 * @return An expression that searches all attributes in the given entity.
 	 */
-	public static Expression allQualifier( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass ) {
+	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass ) {
 
 		// FIXME: Whould this check be here?
 		if( searchString == null ) {
