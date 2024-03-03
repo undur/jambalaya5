@@ -208,7 +208,7 @@ public class CayenneUtils {
 	}
 
 	/**
-	 * @return An expression that searches all attributes in the given entity.
+	 * @return An expression that searches the given keyPaths in the given entity
 	 */
 	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass, List<String> keyPaths ) {
 
