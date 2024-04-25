@@ -51,10 +51,8 @@ public class CayenneUtils {
 	 * @return The original list as a map, where keys are distinct values provided by invoking [property]
 	 */
 	public static <T, E extends DataObject> Map<T, List<E>> group( Collection<E> collection, Property<T> property, boolean includeNulls ) {
-
-		if( collection == null ) {
-			throw new IllegalArgumentException( "List can't be null" );
-		}
+		Objects.requireNonNull( collection, "Collection can't be null" );
+		Objects.requireNonNull( property, "Property can't be null" );
 
 		Map<T, List<E>> map = new HashMap<>();
 
