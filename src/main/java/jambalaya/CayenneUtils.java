@@ -248,7 +248,10 @@ public class CayenneUtils {
 			return new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" );
 		}
 
-		if( StringUtilities.isDigitsOnly( searchString ) ) {
+		final boolean isNumeric = StringUtilities.isDigitsOnly( searchString );
+		final boolean isNumericNegative = "-".equals( searchString.substring( 0, 1 ) ) && StringUtilities.isDigitsOnly( searchString.substring( 1, searchString.length() ) );
+
+		if( isNumeric || isNumericNegative ) {
 			if( attributeIsInteger( attribute ) ) {
 				return new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) );
 			}
