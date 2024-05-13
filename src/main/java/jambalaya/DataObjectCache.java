@@ -144,6 +144,16 @@ public class DataObjectCache<E extends DataObject> {
 		return list.get( 0 );
 	}
 
+	public E getOne( ObjectContext oc, Expression e ) {
+		final E object = getOne( e );
+
+		if( object == null ) {
+			return null;
+		}
+
+		return oc.localObject( object );
+	}
+
 	/**
 	 * @return the object cache.
 	 */
