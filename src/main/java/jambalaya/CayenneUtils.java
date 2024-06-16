@@ -30,6 +30,7 @@ import org.apache.cayenne.map.EntityResolver;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
+import org.apache.cayenne.reflect.PropertyUtils;
 import org.apache.cayenne.util.CayenneMapEntry;
 
 import is.rebbi.core.util.DateUtilities;
@@ -57,7 +58,7 @@ public class CayenneUtils {
 		Map<T, List<E>> map = new HashMap<>();
 
 		for( E object : collection ) {
-			T value = property.getFrom( object );
+			T value = (T)PropertyUtils.getProperty( object, property.getName() );
 
 			if( value != null || includeNulls ) {
 				List<E> group = map.get( value );

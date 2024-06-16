@@ -9,6 +9,7 @@ import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.Property;
 import org.apache.cayenne.query.ObjectSelect;
+import org.apache.cayenne.reflect.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -192,7 +193,8 @@ public class DataObjectCache<E extends DataObject> {
 			Map<Property<?>, Object> key = new HashMap<>();
 
 			for( Property<?> property : _properties ) {
-				key.put( property, property.getFrom( object ) );
+				final Object value = PropertyUtils.getProperty( object, property.getName() );
+				key.put( property, value );
 			}
 
 			_cache.put( key, object );
