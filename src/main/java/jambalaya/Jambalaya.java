@@ -8,19 +8,19 @@ public class Jambalaya {
 	/**
 	 * The processes global ServerRuntime
 	 */
-	private static ServerRuntime _serverRuntime;
+	private static ServerRuntime _runtime;
 
 	public static void setServerRuntime( ServerRuntime runtime ) {
-		_serverRuntime = runtime;
+		_runtime = runtime;
 	}
 
 	public static ServerRuntime serverRuntime() {
 
-		if( _serverRuntime == null ) {
+		if( _runtime == null ) {
 			throw new IllegalStateException( "A server runtime has not been set" );
 		}
 
-		return _serverRuntime;
+		return _runtime;
 	}
 
 	public static ObjectContext newContext() {
