@@ -27,18 +27,15 @@
 				<artifactId>cayenne-maven-plugin</artifactId>
 				<version>${cayenne.version}</version>
 				<configuration>
-					<destDir>${project.basedir}/src/test/java</destDir>
+					<map>${project.basedir}/src/test/resources/datamap.map.xml</map>
 					<superTemplate>${project.basedir}/src/test/resources/cayenne-templates/superclass_41_nogetprefix.vm</superTemplate>
+					<destDir>${project.basedir}/src/test/java</destDir>
 				</configuration>
 				<executions>
 					<execution>
-						<id>cgen</id>
 						<goals>
 							<goal>cgen</goal>
 						</goals>
-						<configuration>
-							<map>${project.basedir}/src/test/resources/datamap.map.xml</map>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
