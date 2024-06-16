@@ -154,7 +154,7 @@ public abstract class ${superClassName} extends ${baseClassName} {
 ## getter
 ##
 #if ( $importUtils.isBoolean(${attr.Type}) )
-	public $type ${attr.Name}() {
+    public $type ${attr.Name}() {
 #else
     public $type ${attr.Name}() {
 #end
