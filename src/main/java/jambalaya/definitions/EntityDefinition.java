@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.cayenne.CayenneRuntimeException;
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.map.EntityResolver;
 import org.apache.cayenne.map.ObjEntity;
+import org.apache.cayenne.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,10 +145,23 @@ public class EntityDefinition<E extends DataObject> {
 		ObjEntity entity = entityResolver.getObjEntity( entityName );
 
 		if( entity != null ) {
-			entityClass = entity.getJavaClass();
+			entityClass = getJavaClass( entity.getJavaClassName() );
 		}
 
 		return entityClass;
+	}
+
+	/**
+	 * FIXME: We need to eliminate this method and just plain use the proper way Cayenne suggests ever since 4.0
+	 */
+	@Deprecated
+	private static Class<?> getJavaClass( final String name ) {
+		try {
+			return Util.getJavaClass( name );
+		}
+		catch( ClassNotFoundException e ) {
+			throw new CayenneRuntimeException( "Failed to doLoad class " + name + ": " + e.getMessage(), e );
+		}
 	}
 
 	/**
