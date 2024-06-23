@@ -17,72 +17,48 @@ public class AttributeDefinition {
 
 	public AttributeDefinition() {}
 
-	public AttributeDefinition( Integer sortOrder, Property<?> property, String icelandicName, boolean show ) {
-		setSortOrder( sortOrder );
-		setName( property.getName() );
-		setProperty( property );
-		setIcelandicName( icelandicName );
-		setShow( show );
+	public AttributeDefinition( String name ) {
+		_name = name;
 	}
 
-	public AttributeDefinition( Integer sortOrder, String name, String icelandicName, boolean show ) {
-		setSortOrder( sortOrder );
-		setName( name );
-		setProperty( Property.create( name, null ) );
-		setIcelandicName( icelandicName );
-		setShow( show );
+	public AttributeDefinition( Integer sortOrder, Property<?> property, String icelandicName, boolean show ) {
+		_sortOrder = sortOrder;
+		_name = property.getName();
+		_property = property;
+		_icelandicName = icelandicName != null ? icelandicName : property.getName();
+		_show = show;
+	}
+
+	public AttributeDefinition( Integer sortOrder, String propertyName, String icelandicName, boolean show ) {
+		_sortOrder = sortOrder;
+		_name = propertyName;
+		_property = Property.create( propertyName, null );
+		_icelandicName = icelandicName != null ? icelandicName : propertyName;
+		_show = show;
 	}
 
 	public String name() {
 		return _name;
 	}
 
-	public void setName( String value ) {
-		_name = value;
-	}
-
 	public Property<?> property() {
 		return _property;
 	}
 
-	public void setProperty( Property<?> value ) {
-		_property = value;
-	}
-
 	public String icelandicName() {
-		if( _icelandicName == null ) {
-			_icelandicName = name();
-		}
-
 		return _icelandicName;
-	}
-
-	public void setIcelandicName( String value ) {
-		_icelandicName = value;
 	}
 
 	public String text() {
 		return _text;
 	}
 
-	public void setText( String value ) {
-		_text = value;
-	}
-
 	public boolean show() {
 		return _show;
 	}
 
-	public void setShow( boolean value ) {
-		_show = value;
-	}
-
 	public Integer sortOrder() {
 		return _sortOrder;
-	}
-
-	public void setSortOrder( Integer value ) {
-		_sortOrder = value;
 	}
 
 	@Override

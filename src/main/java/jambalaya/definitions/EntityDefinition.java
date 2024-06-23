@@ -310,8 +310,7 @@ public class EntityDefinition<E extends DataObject> {
 		AttributeDefinition result = attributeDefinitions().get( attributeName );
 
 		if( result == null ) {
-			result = new AttributeDefinition();
-			result.setName( attributeName );
+			result = new AttributeDefinition( attributeName );
 			addAttributeDefinition( result );
 		}
 
