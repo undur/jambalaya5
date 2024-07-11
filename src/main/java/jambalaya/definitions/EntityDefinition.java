@@ -332,9 +332,13 @@ public class EntityDefinition<E extends DataObject> {
 	public List<AttributeDefinition> attributesToShow() {
 		if( _attributesToShow == null ) {
 			_attributesToShow = new ArrayList<>( attributeDefinitions().values() );
-			_attributesToShow = _attributesToShow.stream().filter( AttributeDefinition::show ).collect( Collectors.toList() );
-			Collections.sort( _attributesToShow, Comparator.comparing( AttributeDefinition::name ) );
-			Collections.sort( _attributesToShow, Comparator.comparing( AttributeDefinition::sortOrder ) );
+			_attributesToShow = _attributesToShow
+					.stream()
+					.filter( AttributeDefinition::show )
+					.sorted( Comparator
+							.comparing( AttributeDefinition::name )
+							.thenComparing( AttributeDefinition::sortOrder ) )
+					.toList();
 		}
 
 		return _attributesToShow;
