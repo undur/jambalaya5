@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.property.Property;
 import org.apache.cayenne.query.ObjectSelect;
@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * FIXME: Allow consumer to specify if duplicate key values should be allowed.
  */
 
-public class DataObjectCache<E extends DataObject> {
+public class DataObjectCache<E extends PersistentObject> {
 
 	private static final Logger logger = LoggerFactory.getLogger( DataObjectCache.class );
 
