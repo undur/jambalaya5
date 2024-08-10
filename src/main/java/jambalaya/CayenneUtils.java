@@ -16,8 +16,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.exp.parser.ASTEqual;
@@ -51,7 +51,7 @@ public class CayenneUtils {
 	 *
 	 * @return The original list as a map, where keys are distinct values provided by invoking [property]
 	 */
-	public static <T, E extends DataObject> Map<T, List<E>> group( Collection<E> collection, Property<T> property, boolean includeNulls ) {
+	public static <T, E extends PersistentObject> Map<T, List<E>> group( Collection<E> collection, Property<T> property, boolean includeNulls ) {
 		Objects.requireNonNull( collection, "Collection can't be null" );
 		Objects.requireNonNull( property, "Property can't be null" );
 
@@ -178,7 +178,7 @@ public class CayenneUtils {
 	/**
 	 * @return An expression that searches all attributes in the given entity.
 	 */
-	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass ) {
+	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends PersistentObject> entityClass ) {
 
 		// FIXME: Whould this check be here?
 		if( searchString == null ) {
@@ -209,7 +209,7 @@ public class CayenneUtils {
 	/**
 	 * @return An expression that searches the given keyPaths in the given entity
 	 */
-	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends DataObject> entityClass, List<String> keyPaths ) {
+	public static Expression allExpression( ObjectContext oc, String searchString, Class<? extends PersistentObject> entityClass, List<String> keyPaths ) {
 
 		final ObjEntity entity = oc.getEntityResolver().getObjEntity( entityClass );
 		final List<Expression> expressions = new ArrayList<>();

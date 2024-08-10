@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.cayenne.CayenneRuntimeException;
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.map.EntityResolver;
 import org.apache.cayenne.map.ObjEntity;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import jambalaya.Jambalaya;
 
-public class EntityDefinition<E extends DataObject> {
+public class EntityDefinition<E extends PersistentObject> {
 
 	private static final Logger logger = LoggerFactory.getLogger( EntityDefinition.class );
 
@@ -86,7 +86,7 @@ public class EntityDefinition<E extends DataObject> {
 	/**
 	 * Define an entity.
 	 */
-	public static <E extends DataObject> EntityDefinition<E> create( final Class<E> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName ) {
+	public static <E extends PersistentObject> EntityDefinition<E> create( final Class<E> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName ) {
 		final EntityDefinition<E> e = new EntityDefinition<>();
 		e.setEntityClass( entityClass );
 
