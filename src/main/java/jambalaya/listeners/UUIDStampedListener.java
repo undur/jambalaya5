@@ -2,7 +2,7 @@ package jambalaya.listeners;
 
 import java.util.UUID;
 
-import org.apache.cayenne.BaseDataObject;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.annotation.PostAdd;
 
 import jambalaya.interfaces.UUIDStamped;
@@ -13,8 +13,8 @@ import jambalaya.interfaces.UUIDStamped;
 
 public class UUIDStampedListener {
 
-	@PostAdd({ BaseDataObject.class })
-	public void handleAdd( BaseDataObject object ) {
+	@PostAdd({ PersistentObject.class })
+	public void handleAdd( PersistentObject object ) {
 		if( object instanceof UUIDStamped ) {
 			((UUIDStamped)object).setUniqueID( UUID.randomUUID() );
 		}

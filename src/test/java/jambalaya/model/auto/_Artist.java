@@ -6,9 +6,15 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.apache.cayenne.BaseDataObject;
-import org.apache.cayenne.exp.Property;
+import org.apache.cayenne.PersistentObject;
+import org.apache.cayenne.exp.property.DateProperty;
+import org.apache.cayenne.exp.property.ListProperty;
+import org.apache.cayenne.exp.property.NumericIdProperty;
+import org.apache.cayenne.exp.property.PropertyFactory;
+import org.apache.cayenne.exp.property.SelfProperty;
+import org.apache.cayenne.exp.property.StringProperty;
 
+import jambalaya.model.Artist;
 import jambalaya.model.Painting;
 
 /**
@@ -17,17 +23,20 @@ import jambalaya.model.Painting;
  * since it may be overwritten next time code is regenerated.
  * If you need to make any customizations, please use subclass.
  */
-public abstract class _Artist extends BaseDataObject {
+public abstract class _Artist extends PersistentObject {
 
-    private static final long serialVersionUID = 1L; 
+    private static final long serialVersionUID = 1L;
 
+    public static final SelfProperty<Artist> SELF = PropertyFactory.createSelf(Artist.class);
+
+    public static final NumericIdProperty<Integer> ID_PK_PROPERTY = PropertyFactory.createNumericId("id", "Artist", Integer.class);
     public static final String ID_PK_COLUMN = "id";
 
-    public static final Property<LocalDateTime> CREATION_DATE = Property.create("creationDate", LocalDateTime.class);
-    public static final Property<LocalDateTime> MODIFICATION_DATE = Property.create("modificationDate", LocalDateTime.class);
-    public static final Property<String> NAME = Property.create("name", String.class);
-    public static final Property<String> UNIQUE_ID = Property.create("uniqueID", String.class);
-    public static final Property<List<Painting>> PAINTINGS = Property.create("paintings", List.class);
+    public static final DateProperty<LocalDateTime> CREATION_DATE = PropertyFactory.createDate("creationDate", LocalDateTime.class);
+    public static final DateProperty<LocalDateTime> MODIFICATION_DATE = PropertyFactory.createDate("modificationDate", LocalDateTime.class);
+    public static final StringProperty<String> NAME = PropertyFactory.createString("name", String.class);
+    public static final StringProperty<String> UNIQUE_ID = PropertyFactory.createString("uniqueID", String.class);
+    public static final ListProperty<Painting> PAINTINGS = PropertyFactory.createList("paintings", Painting.class);
 
     protected LocalDateTime creationDate;
     protected LocalDateTime modificationDate;

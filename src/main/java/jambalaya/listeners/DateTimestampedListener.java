@@ -3,10 +3,9 @@ package jambalaya.listeners;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import org.apache.cayenne.BaseDataObject;
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.ObjectId;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.annotation.PostAdd;
 import org.apache.cayenne.annotation.PreUpdate;
@@ -26,8 +25,8 @@ public class DateTimestampedListener {
 
 	private static final Logger logger = LoggerFactory.getLogger( DateTimestampedListener.class );
 
-	@PostAdd({ BaseDataObject.class })
-	public void handleAdd( BaseDataObject object ) {
+	@PostAdd({ PersistentObject.class })
+	public void handleAdd( PersistentObject object ) {
 		if( object instanceof DateTimeStampedCreation ) {
 			((DateTimeStampedCreation)object).setCreationDate( LocalDateTime.now() );
 		}
@@ -37,8 +36,8 @@ public class DateTimestampedListener {
 		}
 	}
 
-	@PreUpdate({ BaseDataObject.class })
-	public void handleUpdate( BaseDataObject object ) {
+	@PreUpdate({ PersistentObject.class })
+	public void handleUpdate( PersistentObject object ) {
 		if( object instanceof DateTimeStampedModification ) {
 			if( hasChangesToOwnData( object ) ) {
 				((DateTimeStampedModification)object).setModificationDate( LocalDateTime.now() );
@@ -53,7 +52,7 @@ public class DateTimestampedListener {
 	 *
 	 * FIXME: This does not currently take relationships into account, only direct changes to attributes // Hugi 2020-07-13
 	 */
-	public static boolean hasChangesToOwnData( final DataObject dataObject ) {
+	public static boolean hasChangesToOwnData( final PersistentObject dataObject ) {
 		final DataContext dc = (DataContext)dataObject.getObjectContext();
 		final ObjectId objectId = dataObject.getObjectId();
 		final ObjEntity entity = dc.getEntityResolver().getObjEntity( objectId.getEntityName() );

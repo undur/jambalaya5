@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.dbsync.CreateIfNoSchemaStrategy;
 import org.apache.cayenne.access.dbsync.SchemaUpdateStrategy;
-import org.apache.cayenne.configuration.server.ServerRuntime;
-import org.apache.cayenne.configuration.server.ServerRuntimeBuilder;
+import org.apache.cayenne.runtime.CayenneRuntime;
+import org.apache.cayenne.runtime.CayenneRuntimeBuilder;
 
 import jambalaya.listeners.DateTimestampedListener;
 import jambalaya.listeners.UniqueIDStampedListener;
@@ -17,11 +17,11 @@ import jambalaya.listeners.UniqueIDStampedListener;
 
 public class TestCore {
 
-	private static ServerRuntime _serverRuntime;
+	private static CayenneRuntime _serverRuntime;
 
-	public static ServerRuntime serverRuntime() {
+	public static CayenneRuntime serverRuntime() {
 		if( _serverRuntime == null ) {
-			ServerRuntimeBuilder b = ServerRuntime.builder();
+			CayenneRuntimeBuilder b = CayenneRuntime.builder();
 			b.addConfig( "cayenne-project.xml" );
 			b = b.addModule( binder -> binder.bind( SchemaUpdateStrategy.class ).to( CreateIfNoSchemaStrategy.class ) );
 			b = b.jdbcDriver( "org.h2.Driver" );

@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import org.apache.cayenne.CayenneRuntimeException;
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.access.DataDomain;
-import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.map.EntityResolver;
 import org.apache.cayenne.map.ObjEntity;
+import org.apache.cayenne.runtime.CayenneRuntime;
 import org.apache.cayenne.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,7 +139,7 @@ public class EntityDefinition<E extends DataObject> {
 	private static Class<?> classForEntity( String entityName ) {
 		Class<?> entityClass = null;
 
-		ServerRuntime serverRuntime = Jambalaya.serverRuntime();
+		CayenneRuntime serverRuntime = Jambalaya.serverRuntime();
 		DataDomain dataDomain = serverRuntime.getDataDomain();
 		EntityResolver entityResolver = dataDomain.getEntityResolver();
 		ObjEntity entity = entityResolver.getObjEntity( entityName );
@@ -358,7 +358,7 @@ public class EntityDefinition<E extends DataObject> {
 
 	private static List<String> allCayenneEntityNames() {
 		// FIXME: MAXIMUM UGLYNESS!
-		ServerRuntime serverRuntime = Jambalaya.serverRuntime();
+		CayenneRuntime serverRuntime = Jambalaya.serverRuntime();
 
 		if( serverRuntime == null ) {
 			return new ArrayList<>();

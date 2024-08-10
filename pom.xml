@@ -8,7 +8,7 @@
 	<description>Cayenne 5 extensions</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cayenne.version>4.1.1</cayenne.version>
+		<cayenne.version>5.0-SNAPSHOT</cayenne.version>
 	</properties>
 	<build>
 		<plugins>
@@ -28,7 +28,7 @@
 				<version>${cayenne.version}</version>
 				<configuration>
 					<map>${project.basedir}/src/test/resources/datamap.map.xml</map>
-					<superTemplate>${project.basedir}/src/test/resources/cayenne-templates/superclass_41_nogetprefix.vm</superTemplate>
+					<superTemplate>${project.basedir}/src/test/resources/cayenne-templates/superclass_50_nogetprefix.vm</superTemplate>
 					<destDir>${project.basedir}/src/test/java</destDir>
 				</configuration>
 				<executions>
@@ -50,7 +50,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cayenne</groupId>
-			<artifactId>cayenne-server</artifactId>
+			<artifactId>cayenne</artifactId>
 			<version>${cayenne.version}</version>
 		</dependency>
 		<dependency>

@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
-import org.apache.cayenne.exp.Property;
+import org.apache.cayenne.exp.property.Property;
 import org.apache.cayenne.query.ObjectSelect;
 import org.apache.cayenne.reflect.PropertyUtils;
 import org.slf4j.Logger;

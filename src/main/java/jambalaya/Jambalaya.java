@@ -1,20 +1,20 @@
 package jambalaya;
 
 import org.apache.cayenne.ObjectContext;
-import org.apache.cayenne.configuration.server.ServerRuntime;
+import org.apache.cayenne.runtime.CayenneRuntime;
 
 public class Jambalaya {
 
 	/**
 	 * The processes global ServerRuntime
 	 */
-	private static ServerRuntime _runtime;
+	private static CayenneRuntime _runtime;
 
-	public static void setServerRuntime( ServerRuntime runtime ) {
+	public static void setServerRuntime( CayenneRuntime runtime ) {
 		_runtime = runtime;
 	}
 
-	public static ServerRuntime serverRuntime() {
+	public static CayenneRuntime serverRuntime() {
 
 		if( _runtime == null ) {
 			throw new IllegalStateException( "A server runtime has not been set" );
