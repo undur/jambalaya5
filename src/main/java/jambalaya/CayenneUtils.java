@@ -43,7 +43,7 @@ import is.rebbi.core.util.StringUtilities;
 public class CayenneUtils {
 
 	/**
-	 * Group a list of DataObject by a property.
+	 * Group a list by a property.
 	 *
 	 * @param The list of objects to group
 	 * @param property The property to group by
