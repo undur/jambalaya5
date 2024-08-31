@@ -52,9 +52,9 @@ public class DateTimestampedListener {
 	 *
 	 * FIXME: This does not currently take relationships into account, only direct changes to attributes // Hugi 2020-07-13
 	 */
-	public static boolean hasChangesToOwnData( final PersistentObject dataObject ) {
-		final DataContext dc = (DataContext)dataObject.getObjectContext();
-		final ObjectId objectId = dataObject.getObjectId();
+	public static boolean hasChangesToOwnData( final PersistentObject object ) {
+		final DataContext dc = (DataContext)object.getObjectContext();
+		final ObjectId objectId = object.getObjectId();
 		final ObjEntity entity = dc.getEntityResolver().getObjEntity( objectId.getEntityName() );
 		final DataRow snapshot = dc.getObjectStore().getSnapshot( objectId );
 
@@ -62,7 +62,7 @@ public class DateTimestampedListener {
 			for( final ObjAttribute objAttribute : entity.getAttributes() ) {
 				final String dbAttributeName = objAttribute.getDbAttributeName();
 				final Object originalValue = snapshot.get( dbAttributeName );
-				final Object currentValue = dataObject.readPropertyDirectly( objAttribute.getName() );
+				final Object currentValue = object.readPropertyDirectly( objAttribute.getName() );
 
 				if( !Objects.equals( originalValue, currentValue ) ) {
 					return true;
