@@ -16,13 +16,16 @@ public class AttributeDefinition {
 	private boolean _show;
 	private Integer _sortOrder;
 
+	@Deprecated
 	public AttributeDefinition() {}
 
+	@Deprecated
 	public AttributeDefinition( String name ) {
 		_name = name;
 		_icelandicName = name;
 	}
 
+	@Deprecated
 	public AttributeDefinition( Integer sortOrder, Property<?> property, String icelandicName, boolean show ) {
 		_sortOrder = sortOrder;
 		_name = property.getName();
@@ -31,6 +34,7 @@ public class AttributeDefinition {
 		_show = show;
 	}
 
+	@Deprecated
 	public AttributeDefinition( Integer sortOrder, String propertyName, String icelandicName, boolean show ) {
 		_sortOrder = sortOrder;
 		_name = propertyName;
