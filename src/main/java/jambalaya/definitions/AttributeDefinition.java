@@ -20,6 +20,7 @@ public class AttributeDefinition {
 
 	public AttributeDefinition( String name ) {
 		_name = name;
+		_icelandicName = name;
 	}
 
 	public AttributeDefinition( Integer sortOrder, Property<?> property, String icelandicName, boolean show ) {
