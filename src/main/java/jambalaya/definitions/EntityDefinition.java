@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.cayenne.CayenneRuntimeException;
 import org.apache.cayenne.PersistentObject;
@@ -347,7 +346,12 @@ public class EntityDefinition<E extends PersistentObject> {
 			return new ArrayList<>();
 		}
 
-		return serverRuntime.getDataDomain().getEntityResolver().getObjEntities().stream().map( ObjEntity::getName ).collect( Collectors.toList() );
+		return serverRuntime
+				.getDataDomain()
+				.getEntityResolver()
+				.getObjEntities().stream()
+				.map( ObjEntity::getName )
+				.toList();
 	}
 
 	/**
