@@ -55,11 +55,6 @@ public class EntityDefinition<E extends PersistentObject> {
 	private String _text;
 
 	/**
-	 * Filename of icon used when showing objects of this type.
-	 */
-	private String _iconFileName;
-
-	/**
 	 * Name of the category
 	 */
 	private String _categoryName;
@@ -192,10 +187,6 @@ public class EntityDefinition<E extends PersistentObject> {
 			e.setText( text() );
 		}
 
-		if( iconFileName() != null ) {
-			e.setIconFileName( iconFileName() );
-		}
-
 		if( !attributeDefinitions().isEmpty() ) {
 			e.setAttributeDefinitions( attributeDefinitions() );
 		}
@@ -279,14 +270,6 @@ public class EntityDefinition<E extends PersistentObject> {
 
 	public void setText( String value ) {
 		_text = value;
-	}
-
-	public String iconFileName() {
-		return _iconFileName;
-	}
-
-	public void setIconFileName( String value ) {
-		_iconFileName = value;
 	}
 
 	public String categoryName() {
