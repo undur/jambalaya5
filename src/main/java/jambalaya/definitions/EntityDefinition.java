@@ -338,6 +338,11 @@ public class EntityDefinition<E extends PersistentObject> {
 		return all;
 	}
 
+	/**
+	 * @return A list of all cayenne entities
+	 *
+	 * FIXME: We should really implement this by just registering all entities and attributes at application startup. We can then override/supplement the Cayenne data with other entity info providers
+	 */
 	private static List<String> allCayenneEntityNames() {
 		// FIXME: MAXIMUM UGLYNESS!
 		CayenneRuntime serverRuntime = Jambalaya.serverRuntime();
