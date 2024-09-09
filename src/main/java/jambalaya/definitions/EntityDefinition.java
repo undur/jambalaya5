@@ -71,7 +71,7 @@ public class EntityDefinition<E extends PersistentObject> {
 	/**
 	 * List of all objects that provide the system with EntityDefinitions.
 	 */
-	private static List<ProvidesEntityDefinitions> _entityDefinitionProviders;
+	private static List<ProvidesEntityDefinitions> _entityDefinitionProviders = new ArrayList<>();
 
 	protected EntityDefinition() {
 		setAttributeDefinitions( new HashMap<>() );
@@ -93,17 +93,12 @@ public class EntityDefinition<E extends PersistentObject> {
 	}
 
 	private static List<ProvidesEntityDefinitions> entityDefinitionProviders() {
-		if( _entityDefinitionProviders == null ) {
-			_entityDefinitionProviders = new ArrayList<>();
-		}
-
-		Collections.sort( _entityDefinitionProviders, Comparator.comparing( ProvidesEntityDefinitions::priority ) );
-
 		return _entityDefinitionProviders;
 	}
 
 	public static void registerEntityDefinitionProvider( ProvidesEntityDefinitions provider ) {
 		entityDefinitionProviders().add( provider );
+		Collections.sort( _entityDefinitionProviders, Comparator.comparing( ProvidesEntityDefinitions::priority ) );
 		invalidateCache();
 	}
 
