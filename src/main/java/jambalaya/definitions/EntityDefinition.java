@@ -40,6 +40,11 @@ public class EntityDefinition<E extends PersistentObject> {
 	private String _name;
 
 	/**
+	 * The class that represents this entity. Can be null if the entity does not have a corresponding class.
+	 */
+	private Class<E> _entityClass;
+
+	/**
 	 * Icelandic name.
 	 */
 	private String _icelandicName;
@@ -63,11 +68,6 @@ public class EntityDefinition<E extends PersistentObject> {
 	 * Cached list of attributes to show.
 	 */
 	private List<AttributeDefinition> _attributesToShow;
-
-	/**
-	 * The class that represents this entity. Can be null if the entity does not have a corresponding class.
-	 */
-	private Class<E> _entityClass;
 
 	/**
 	 * List of all objects that provide the system with EntityDefinitions.
