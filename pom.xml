@@ -8,7 +8,7 @@
 	<description>Cayenne 5 extensions</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<cayenne.version>5.0-SNAPSHOT</cayenne.version>
+		<cayenne.version>5.0-M1</cayenne.version>
 	</properties>
 	<build>
 		<plugins>
