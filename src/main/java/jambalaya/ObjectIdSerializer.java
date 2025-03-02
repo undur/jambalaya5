@@ -1,8 +1,5 @@
 package jambalaya;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -52,25 +49,6 @@ public class ObjectIdSerializer {
 			keyMap.put( attribute.getName(), components[i++] );
 		}
 
-		// FIXME: This is here to bridge the API gap between Cayenne 4.1 and 4.2. Remove once everything is on 4.2 // Hugi 2020-09-17
-		// First we try the 4.1 method of using a constructor
-		try {
-			final Constructor<ObjectId> constructor = ObjectId.class.getConstructor( String.class, Map.class );
-			final ObjectId objectId = constructor.newInstance( objEntityName, keyMap );
-			return objectId;
-		}
-		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
-			// If that failed, we try doing it the 4.2 way
-			try {
-				final Method method = ObjectId.class.getMethod( "of", String.class, Map.class );
-				final ObjectId objectId = (ObjectId)method.invoke( null, objEntityName, keyMap );
-				return objectId;
-			}
-			catch( NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1 ) {
-				throw new RuntimeException( "Failed to construct an ObjectId", e );
-			}
-		}
-		//		return new ObjectId( objEntityName, keyMap );
-		//		return ObjectId.of( objEntityName, keyMap ); // FIXME: For Cayenne 4.2
+		return ObjectId.of( objEntityName, keyMap );
 	}
 }
