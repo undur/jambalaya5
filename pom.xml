@@ -7,7 +7,7 @@
 	<name>jambalaya5</name>
 	<description>Cayenne 5 extensions</description>
 	<properties>
-		<maven.compiler.release>21</maven.compiler.release>
+		<maven.compiler.release>25</maven.compiler.release>
 		<cayenne.version>5.0-M1</cayenne.version>
 	</properties>
 	<build>
