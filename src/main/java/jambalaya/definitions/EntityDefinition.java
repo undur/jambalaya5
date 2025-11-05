@@ -73,7 +73,7 @@ public class EntityDefinition<E extends PersistentObject> {
 	 */
 	private static List<ProvidesEntityDefinitions> _entityDefinitionProviders = new ArrayList<>();
 
-	protected EntityDefinition() {
+	private EntityDefinition() {
 		setAttributeDefinitions( new HashMap<>() );
 	}
 
