@@ -1,7 +1,6 @@
 package jambalaya.definitions;
 
 import org.apache.cayenne.exp.property.Property;
-import org.apache.cayenne.exp.property.PropertyFactory;
 
 /**
  * Defines the display of an attribute.
@@ -17,9 +16,6 @@ public class AttributeDefinition {
 	private Integer _sortOrder;
 
 	@Deprecated
-	public AttributeDefinition() {}
-
-	@Deprecated
 	public AttributeDefinition( String name ) {
 		_name = name;
 		_icelandicName = name;
@@ -31,15 +27,6 @@ public class AttributeDefinition {
 		_name = property.getName();
 		_property = property;
 		_icelandicName = icelandicName != null ? icelandicName : property.getName();
-		_show = show;
-	}
-
-	@Deprecated
-	public AttributeDefinition( Integer sortOrder, String propertyName, String icelandicName, boolean show ) {
-		_sortOrder = sortOrder;
-		_name = propertyName;
-		_property = PropertyFactory.createBase( propertyName, null );
-		_icelandicName = icelandicName != null ? icelandicName : propertyName;
 		_show = show;
 	}
 
