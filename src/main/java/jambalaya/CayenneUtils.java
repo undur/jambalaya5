@@ -43,36 +43,36 @@ import is.rebbi.core.util.StringUtilities;
 public class CayenneUtils {
 
 	/**
-	 * Group a list by a property.
+	 * Groups a collection of objects by the value of a property
 	 *
 	 * @param The list of objects to group
 	 * @param property The property to group by
-	 * @param includeNulls Indicates if we want to include a null group in the map, containing all objects where invoking [property] resolves to null
+	 * @param includeNull Indicates if we want to include "the null group" in the map (containing all objects where invoking [property] resolves to null)
 	 *
 	 * @return The original list as a map, where keys are distinct values provided by invoking [property]
 	 */
-	public static <T, E extends PersistentObject> Map<T, List<E>> group( Collection<E> collection, Property<T> property, boolean includeNulls ) {
+	public static <T, E extends PersistentObject> Map<T, List<E>> group( final Collection<E> collection, final Property<T> property, final boolean includeNull ) {
 		Objects.requireNonNull( collection, "Collection can't be null" );
 		Objects.requireNonNull( property, "Property can't be null" );
 
-		Map<T, List<E>> map = new HashMap<>();
+		final Map<T, List<E>> result = new HashMap<>();
 
 		for( E object : collection ) {
 			T value = (T)PropertyUtils.getProperty( object, property.getName() );
 
-			if( value != null || includeNulls ) {
-				List<E> group = map.get( value );
+			if( value != null || includeNull ) {
+				List<E> group = result.get( value );
 
 				if( group == null ) {
 					group = new ArrayList<>();
-					map.put( value, group );
+					result.put( value, group );
 				}
 
 				group.add( object );
 			}
 		}
 
-		return map;
+		return result;
 	}
 
 	/**
