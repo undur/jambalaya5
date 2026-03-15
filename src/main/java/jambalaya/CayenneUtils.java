@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.Persistent;
 import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
@@ -306,5 +307,12 @@ public class CayenneUtils {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return True if the two given objects have equal object IDs
+	 */
+	public static boolean equalsByObjectID( Persistent p1, Persistent p2 ) {
+		return p1 == p2 || (p1 != null && p2 != null && p1.getObjectId().equals( p2.getObjectId() ));
 	}
 }
