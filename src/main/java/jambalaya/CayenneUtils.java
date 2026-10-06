@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,8 +36,6 @@ import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.reflect.PropertyUtils;
 import org.apache.cayenne.util.CayenneMapEntry;
 
-import is.rebbi.core.util.DateUtilities;
-import is.rebbi.core.util.StringUtilities;
 
 /**
  * Various utility methods for database connectivity.
@@ -255,8 +254,8 @@ public class CayenneUtils {
 			return new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" );
 		}
 
-		final boolean isNumeric = StringUtilities.isDigitsOnly( searchString );
-		final boolean isNumericNegative = "-".equals( searchString.substring( 0, 1 ) ) && StringUtilities.isDigitsOnly( searchString.substring( 1, searchString.length() ) );
+		final boolean isNumeric = isDigitsOnly( searchString );
+		final boolean isNumericNegative = "-".equals( searchString.substring( 0, 1 ) ) && isDigitsOnly( searchString.substring( 1, searchString.length() ) );
 
 		if( isNumeric || isNumericNegative ) {
 			if( attributeIsInteger( attribute ) ) {
@@ -279,8 +278,8 @@ public class CayenneUtils {
 
 				if( attributeIsDate( attribute ) ) {
 					final List<Expression> l = new ArrayList<>();
-					l.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), DateUtilities.toDate( from ) ) );
-					l.add( new ASTLess( new ASTObjPath( keyPath ), DateUtilities.toDate( to ) ) );
+					l.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), Date.from( from.atStartOfDay( ZoneId.systemDefault() ).toInstant() ) ) );
+					l.add( new ASTLess( new ASTObjPath( keyPath ), Date.from( to.atStartOfDay( ZoneId.systemDefault() ).toInstant() ) ) );
 					return ExpressionFactory.and( l );
 				}
 
@@ -319,5 +318,12 @@ public class CayenneUtils {
 	 */
 	public static boolean equalsByObjectID( Persistent p1, Persistent p2 ) {
 		return p1 == p2 || (p1 != null && p2 != null && p1.getObjectId().equals( p2.getObjectId() ));
+	}
+
+	/**
+	 * @return true if every character of the string is a digit (also for an empty string)
+	 */
+	private static boolean isDigitsOnly( final String string ) {
+		return string.chars().allMatch( Character::isDigit );
 	}
 }
