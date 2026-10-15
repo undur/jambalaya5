@@ -4,10 +4,10 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import org.apache.cayenne.CayenneRuntime;
 import org.apache.cayenne.ObjectContext;
-import org.apache.cayenne.configuration.DataNodeDescriptor;
 import org.apache.cayenne.datasource.CayenneDataSource;
-import org.apache.cayenne.runtime.CayenneRuntime;
+import org.apache.cayenne.project.DataNodeDescriptor;
 
 import jambalaya.listeners.DateTimestampedListener;
 import jambalaya.listeners.UniqueIDStampedListener;

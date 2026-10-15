@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cayenne.CayenneRuntime;
 import org.apache.cayenne.CayenneRuntimeException;
 import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.map.EntityResolver;
 import org.apache.cayenne.map.ObjEntity;
-import org.apache.cayenne.runtime.CayenneRuntime;
 import org.apache.cayenne.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

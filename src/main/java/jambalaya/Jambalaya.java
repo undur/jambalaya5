@@ -1,7 +1,7 @@
 package jambalaya;
 
+import org.apache.cayenne.CayenneRuntime;
 import org.apache.cayenne.ObjectContext;
-import org.apache.cayenne.runtime.CayenneRuntime;
 
 public class Jambalaya {
 

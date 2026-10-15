@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21,21 +20,19 @@ import java.util.UUID;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.Persistent;
 import org.apache.cayenne.PersistentObject;
+import org.apache.cayenne.exp.EqualExp;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
-import org.apache.cayenne.exp.parser.ASTEqual;
-import org.apache.cayenne.exp.parser.ASTGreaterOrEqual;
-import org.apache.cayenne.exp.parser.ASTLess;
-import org.apache.cayenne.exp.parser.ASTLikeIgnoreCase;
-import org.apache.cayenne.exp.parser.ASTObjPath;
+import org.apache.cayenne.exp.GreaterOrEqualExp;
+import org.apache.cayenne.exp.LessExp;
+import org.apache.cayenne.exp.LikeIgnoreCaseExp;
+import org.apache.cayenne.exp.ObjPathExp;
 import org.apache.cayenne.exp.property.Property;
 import org.apache.cayenne.map.EntityResolver;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.reflect.PropertyUtils;
-import org.apache.cayenne.util.CayenneMapEntry;
-
 
 /**
  * Various utility methods for database connectivity.
@@ -163,10 +160,8 @@ public class CayenneUtils {
 
 		StringBuilder b = new StringBuilder();
 
-		for( Iterator<CayenneMapEntry> it = entity.resolvePathComponents( keyPath ); it.hasNext(); ) {
-			CayenneMapEntry next = it.next();
-
-			if( next instanceof ObjRelationship ) {
+		for( Object i : entity.resolvePath( keyPath ) ) {
+			if( i instanceof ObjRelationship next ) {
 
 				if( b.length() > 0 ) {
 					b.append( "." );
@@ -222,11 +217,7 @@ public class CayenneUtils {
 		for( String keyPath : keyPaths ) {
 			keyPath = keyPath.replace( ".", "+." );
 
-			CayenneMapEntry last = null;
-
-			for( Iterator<CayenneMapEntry> it = entity.resolvePathComponents( keyPath ); it.hasNext(); ) {
-				last = it.next();
-			}
+			Object last = entity.resolvePath( keyPath ).getLast();
 
 			if( last instanceof ObjAttribute attribute ) {
 				final Expression e = expression( searchString, attribute, keyPath );
@@ -251,7 +242,7 @@ public class CayenneUtils {
 		Objects.requireNonNull( keyPath );
 
 		if( attributeIsString( attribute ) ) {
-			return new ASTLikeIgnoreCase( new ASTObjPath( keyPath ), "%" + searchString + "%" );
+			return new LikeIgnoreCaseExp( new ObjPathExp( keyPath ), "%" + searchString + "%" );
 		}
 
 		final boolean isNumeric = isDigitsOnly( searchString );
@@ -259,15 +250,15 @@ public class CayenneUtils {
 
 		if( isNumeric || isNumericNegative ) {
 			if( attributeIsInteger( attribute ) ) {
-				return new ASTEqual( new ASTObjPath( keyPath ), Integer.valueOf( searchString ) );
+				return new EqualExp( new ObjPathExp( keyPath ), Integer.valueOf( searchString ) );
 			}
 
 			if( attributeIsLong( attribute ) ) {
-				return new ASTEqual( new ASTObjPath( keyPath ), Long.valueOf( searchString ) );
+				return new EqualExp( new ObjPathExp( keyPath ), Long.valueOf( searchString ) );
 			}
 
 			if( attributeIsBigDecimal( attribute ) ) {
-				return new ASTEqual( new ASTObjPath( keyPath ), new BigDecimal( searchString ) );
+				return new EqualExp( new ObjPathExp( keyPath ), new BigDecimal( searchString ) );
 			}
 		}
 
@@ -278,19 +269,19 @@ public class CayenneUtils {
 
 				if( attributeIsDate( attribute ) ) {
 					final List<Expression> l = new ArrayList<>();
-					l.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), Date.from( from.atStartOfDay( ZoneId.systemDefault() ).toInstant() ) ) );
-					l.add( new ASTLess( new ASTObjPath( keyPath ), Date.from( to.atStartOfDay( ZoneId.systemDefault() ).toInstant() ) ) );
+					l.add( new GreaterOrEqualExp( new ObjPathExp( keyPath ), Date.from( from.atStartOfDay( ZoneId.systemDefault() ).toInstant() ) ) );
+					l.add( new LessExp( new ObjPathExp( keyPath ), Date.from( to.atStartOfDay( ZoneId.systemDefault() ).toInstant() ) ) );
 					return ExpressionFactory.and( l );
 				}
 
 				if( attributeIsLocalDate( attribute ) ) {
-					return new ASTEqual( new ASTObjPath( keyPath ), from.atStartOfDay() );
+					return new EqualExp( new ObjPathExp( keyPath ), from );
 				}
 
 				if( attributeIsLocalDateTime( attribute ) ) {
 					final List<Expression> l = new ArrayList<>();
-					l.add( new ASTGreaterOrEqual( new ASTObjPath( keyPath ), from.atStartOfDay() ) );
-					l.add( new ASTLess( new ASTObjPath( keyPath ), to.atStartOfDay() ) );
+					l.add( new GreaterOrEqualExp( new ObjPathExp( keyPath ), from.atStartOfDay() ) );
+					l.add( new LessExp( new ObjPathExp( keyPath ), to.atStartOfDay() ) );
 					return ExpressionFactory.and( l );
 				}
 			}
@@ -302,7 +293,7 @@ public class CayenneUtils {
 		if( attributeIsUUID( attribute ) ) {
 			try {
 				final UUID uuid = UUID.fromString( searchString );
-				return new ASTEqual( new ASTObjPath( keyPath ), uuid );
+				return new EqualExp( new ObjPathExp( keyPath ), uuid );
 			}
 			catch( IllegalArgumentException e ) {
 				// What happened here is that we don't have an exact match for the UUID.
